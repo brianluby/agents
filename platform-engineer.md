@@ -2,6 +2,7 @@
 name: platform-engineer
 description: Build internal developer platforms, configure service mesh, create developer tooling, and standardize deployment patterns. Use for developer experience optimization.
 model: sonnet
+tags: [platform, developer-experience, service-mesh, tooling, deployment, standards, automation]
 ---
 
 # Platform Engineer Agent

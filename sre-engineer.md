@@ -2,6 +2,7 @@
 name: sre-engineer
 description: Define SLIs/SLOs, implement reliability practices, manage error budgets, and balance feature velocity with stability. Use PROACTIVELY for system reliability.
 model: opus
+tags: [sre, reliability, slo, sli, error-budgets, incidents, monitoring, stability]
 ---
 
 # Site Reliability Engineer (SRE) Agent

@@ -2,6 +2,7 @@
 name: qa-engineer
 description: Design manual testing strategies, coordinate user acceptance testing, create comprehensive test plans, and ensure quality beyond automation.
 model: sonnet
+tags: [qa, testing, manual-testing, uat, test-plans, quality, exploratory-testing]
 ---
 
 # QA Engineer Agent

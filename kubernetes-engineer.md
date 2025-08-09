@@ -2,6 +2,7 @@
 name: kubernetes-engineer
 description: Advanced Kubernetes configurations, operator development, cluster management, and container orchestration patterns. Use for complex K8s implementations.
 model: sonnet
+tags: [kubernetes, k8s, containers, orchestration, operators, clusters, microservices, deployment]
 ---
 
 # Kubernetes Engineer Agent

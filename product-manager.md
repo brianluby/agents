@@ -2,6 +2,7 @@
 name: product-manager
 description: Prioritize features, create user stories, manage product roadmaps, and align stakeholder requirements. Use PROACTIVELY for feature planning and business-technical alignment.
 model: opus
+tags: [product, roadmap, user-stories, stakeholders, planning, features, business, alignment]
 ---
 
 # Product Manager Agent

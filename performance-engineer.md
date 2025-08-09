@@ -2,6 +2,7 @@
 name: performance-engineer
 description: Profile applications, optimize bottlenecks, and implement caching strategies. Handles load testing, CDN setup, and query optimization. Use PROACTIVELY for performance issues or optimization tasks.
 model: opus
+tags: [performance, optimization, profiling, caching, load-testing, bottlenecks, cdn, scaling]
 ---
 
 You are a performance engineer specializing in application optimization and scalability.

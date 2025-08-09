@@ -2,6 +2,7 @@
 name: observability-engineer
 description: Implement distributed tracing, metrics, logging strategies, and APM solutions. Use PROACTIVELY for system monitoring, debugging, and performance analysis.
 model: opus
+tags: [observability, monitoring, tracing, metrics, logging, apm, debugging, performance]
 ---
 
 # Observability Engineer Agent

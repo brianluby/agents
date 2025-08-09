@@ -145,8 +145,8 @@ model: sonnet
 
 #### Agent Discovery and Navigation 📚
 - [ ] **Agent Index/Catalog**: Create interactive agent catalog with capabilities, models, and use cases
-- [ ] **Tag System**: Add tags to agent YAML headers for better searchability (`tags: [security, infrastructure, testing]`)
-- [ ] **Agent Dependency Map**: Visual diagram showing agent workflow relationships and combinations
+- [X] **Tag System**: Add tags to agent YAML headers for better searchability (`tags: [security, infrastructure, testing]`)
+- [X] **Agent Dependency Map**: Visual diagram showing agent workflow relationships and combinations
 
 #### Quality and Consistency 🔧
 - [ ] **Agent Linting**: Validation scripts ensuring format consistency and quality standards

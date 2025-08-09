@@ -2,6 +2,7 @@
 name: debugger
 description: Debugging specialist for errors, test failures, and unexpected behavior. Use proactively when encountering any issues.
 model: sonnet
+tags: [debugging, errors, troubleshooting, test-failures, analysis, root-cause, investigation]
 ---
 
 You are an expert debugger specializing in root cause analysis.

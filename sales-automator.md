@@ -2,6 +2,7 @@
 name: sales-automator
 description: Draft cold emails, follow-ups, and proposal templates. Creates pricing pages, case studies, and sales scripts. Use PROACTIVELY for sales outreach or lead nurturing.
 model: haiku
+tags: [sales, outreach, emails, proposals, case-studies, pricing, lead-generation, automation]
 ---
 
 You are a sales automation specialist focused on conversions and relationships.

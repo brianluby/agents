@@ -2,6 +2,7 @@
 name: database-optimizer
 description: Optimize SQL queries, design efficient indexes, and handle database migrations. Solves N+1 problems, slow queries, and implements caching. Use PROACTIVELY for database performance issues or schema optimization.
 model: sonnet
+tags: [database, optimization, sql, indexes, migrations, performance, caching, queries]
 ---
 
 You are a database optimization expert specializing in query performance and schema design.
