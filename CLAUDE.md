@@ -22,11 +22,20 @@ git clone https://github.com/brianluby/agents.git
 ### Agent Management
 ```bash
 # View all available agents
-ls *.md
+find . -name "*.md" -not -path "./.git/*" | grep -v "README\|TODO\|CLAUDE\|AGENT_DEPENDENCY_MAP"
+
+# View agents by category
+ls languages/          # Language-specific programming agents
+ls infrastructure/     # DevOps, cloud, and infrastructure agents  
+ls quality-security/   # Code review, testing, and security agents
+ls specialized-domains/# AI/ML, finance, GraphQL, and domain experts
+ls business/           # Product, sales, and business-focused agents
+ls support-documentation/# Technical writing and documentation agents
+ls research-analysis/  # Data analysis and research agents
 
 # Search for specific agent types
-grep -l "description.*security" *.md
-grep -l "model: opus" *.md
+grep -l "description.*security" */*.md
+grep -l "model: opus" *//*.md
 ```
 
 ## Architecture and Structure
@@ -53,33 +62,48 @@ Agents are strategically assigned to different Claude models based on task compl
 
 ### Agent Categories
 
-#### Language Specialists (14 agents)
-Each language-specific agent follows similar patterns:
-- Idiomatic code patterns and best practices
-- Framework-specific expertise (e.g., Phoenix for Elixir, Spring for Java)
-- Performance optimization techniques
-- Comprehensive testing strategies
-- Type safety where applicable
+The agents are organized into 7 main categories based on their capabilities:
 
-#### Infrastructure & Operations (8 agents)
-Focus on production reliability:
-- `devops-troubleshooter`: Production debugging and log analysis
-- `incident-responder`: Critical outage response (Opus model for complexity)
-- `database-optimizer`/`database-admin`: Query optimization and operations
-- `terraform-specialist`: Infrastructure as Code patterns
+#### Languages (14 agents)
+Located in `languages/` - Language-specific programming expertise:
+- Core languages: `python-pro`, `javascript-pro`, `typescript-pro`, `golang-pro`, `rust-pro`, `java-pro`, `cpp-pro`, `c-pro`, `csharp-pro`, `php-pro`, `elixir-pro`
+- Platform-specific: `ios-developer`, `mobile-developer`, `unity-developer`
+- Each follows patterns: idiomatic code, framework expertise, performance optimization, testing strategies
 
-#### Quality & Security (6 agents)
-Critical system safety:
-- `code-reviewer`: Configuration security emphasis, production reliability
-- `security-auditor`: OWASP compliance, vulnerability scanning (Opus model)
-- `performance-engineer`: Bottleneck analysis and optimization (Opus model)
+#### Infrastructure (12 agents) 
+Located in `infrastructure/` - DevOps, cloud, and system operations:
+- Operations: `devops-troubleshooter`, `incident-responder`, `sre-engineer`, `observability-engineer`
+- Cloud & Infrastructure: `cloud-architect`, `terraform-specialist`, `kubernetes-engineer`, `deployment-engineer`, `platform-engineer`, `network-engineer`
+- Data: `database-admin`, `database-optimizer`
 
-#### Specialized Domains (10+ agents)
-Domain-specific expertise:
-- `ai-engineer`: LLM applications, RAG systems (Opus model for complexity)
-- `quant-analyst`/`risk-manager`: Financial modeling and risk assessment
-- `payment-integration`: Stripe, PayPal, and payment processor integration
-- `legacy-modernizer`: Framework migrations and refactoring
+#### Quality & Security (9 agents)
+Located in `quality-security/` - Code quality, testing, and security:
+- Review & Quality: `code-reviewer`, `architect-review`, `qa-engineer`, `test-automator`
+- Debugging: `debugger`, `error-detective`, `performance-engineer`
+- Maintenance: `legacy-modernizer`, `security-auditor`
+
+#### Specialized Domains (11 agents)
+Located in `specialized-domains/` - Domain-specific technical expertise:
+- AI/ML: `ai-engineer`, `ml-engineer`, `mlops-engineer`, `prompt-engineer`
+- Finance: `quant-analyst`, `risk-manager`, `payment-integration`
+- Architecture: `backend-architect`, `frontend-developer`, `graphql-architect`
+- Developer Experience: `dx-optimizer`
+
+#### Business (6 agents)
+Located in `business/` - Business operations and growth:
+- Strategy: `product-manager`, `business-analyst`
+- Marketing: `sales-automator`, `content-marketer`
+- Support: `customer-support`, `legal-advisor`
+
+#### Support & Documentation (6 agents)
+Located in `support-documentation/` - Technical writing and documentation:
+- Documentation: `technical-writer`, `docs-architect`, `api-documenter`, `reference-builder`, `tutorial-engineer`
+- Design: `ui-ux-designer`
+
+#### Research & Analysis (5 agents)
+Located in `research-analysis/` - Data analysis and information gathering:
+- Data: `data-scientist`, `data-engineer`, `sql-pro`
+- Research: `search-specialist`, `context-manager`
 
 ### Common Agent Patterns
 
