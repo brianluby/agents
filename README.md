@@ -1,3 +1,4 @@
+<!-- Language section commented out for now
 <div align="right">
   <details>
     <summary >🌐 Language</summary>
@@ -28,8 +29,11 @@
     </div>
   </details>
 </div>
+-->
 
 # Claude Code Subagents Collection
+
+> 🙏 **This repository is forked from [wshobson/agents](https://github.com/wshobson/agents)**, the original creator of this comprehensive subagent collection. Thank you for building this amazing resource for the Claude Code community!
 
 A comprehensive collection of specialized AI subagents for [Claude Code](https://docs.anthropic.com/en/docs/claude-code), designed to enhance development workflows with domain-specific expertise.
 
@@ -228,7 +232,7 @@ These subagents are automatically available when placed in `~/.claude/agents/` d
 
 ```bash
 cd ~/.claude
-git clone https://github.com/wshobson/agents.git
+git clone https://github.com/brianluby/agents.git
 ```
 
 ## Usage
@@ -277,7 +281,7 @@ Mention the subagent by name in your request:
 
 ### Multi-Agent Workflows
 
-These subagents work together seamlessly, and for more complex orchestrations, you can use the **[Claude Code Commands](https://github.com/wshobson/commands)** collection which provides 52 pre-built slash commands that leverage these subagents in sophisticated workflows.
+These subagents work together seamlessly, and for more complex orchestrations, you can use the **[Claude Code Commands](https://github.com/brianluby/commands)** collection which provides 52 pre-built slash commands that leverage these subagents in sophisticated workflows.
 
 ```bash
 # Feature development workflow
@@ -311,7 +315,7 @@ These subagents work together seamlessly, and for more complex orchestrations, y
 
 ### Advanced Workflows with Slash Commands
 
-For more sophisticated multi-subagent orchestration, use the companion [Commands repository](https://github.com/wshobson/commands):
+For more sophisticated multi-subagent orchestration, use the companion [Commands repository](https://github.com/brianluby/commands):
 
 ```bash
 # Complex feature development (8+ subagents)
