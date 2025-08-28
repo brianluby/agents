@@ -1,10 +1,41 @@
+<div align="right">
+  <details>
+    <summary >🌐 Language</summary>
+    <div>
+      <div align="center">
+        <a href="https://openaitx.github.io/view.html?user=wshobson&project=agents&lang=en">English</a>
+        | <a href="https://openaitx.github.io/view.html?user=wshobson&project=agents&lang=zh-CN">简体中文</a>
+        | <a href="https://openaitx.github.io/view.html?user=wshobson&project=agents&lang=zh-TW">繁體中文</a>
+        | <a href="https://openaitx.github.io/view.html?user=wshobson&project=agents&lang=ja">日本語</a>
+        | <a href="https://openaitx.github.io/view.html?user=wshobson&project=agents&lang=ko">한국어</a>
+        | <a href="https://openaitx.github.io/view.html?user=wshobson&project=agents&lang=hi">हिन्दी</a>
+        | <a href="https://openaitx.github.io/view.html?user=wshobson&project=agents&lang=th">ไทย</a>
+        | <a href="https://openaitx.github.io/view.html?user=wshobson&project=agents&lang=fr">Français</a>
+        | <a href="https://openaitx.github.io/view.html?user=wshobson&project=agents&lang=de">Deutsch</a>
+        | <a href="https://openaitx.github.io/view.html?user=wshobson&project=agents&lang=es">Español</a>
+        | <a href="https://openaitx.github.io/view.html?user=wshobson&project=agents&lang=it">Italiano</a>
+        | <a href="https://openaitx.github.io/view.html?user=wshobson&project=agents&lang=ru">Русский</a>
+        | <a href="https://openaitx.github.io/view.html?user=wshobson&project=agents&lang=pt">Português</a>
+        | <a href="https://openaitx.github.io/view.html?user=wshobson&project=agents&lang=nl">Nederlands</a>
+        | <a href="https://openaitx.github.io/view.html?user=wshobson&project=agents&lang=pl">Polski</a>
+        | <a href="https://openaitx.github.io/view.html?user=wshobson&project=agents&lang=ar">العربية</a>
+        | <a href="https://openaitx.github.io/view.html?user=wshobson&project=agents&lang=fa">فارسی</a>
+        | <a href="https://openaitx.github.io/view.html?user=wshobson&project=agents&lang=tr">Türkçe</a>
+        | <a href="https://openaitx.github.io/view.html?user=wshobson&project=agents&lang=vi">Tiếng Việt</a>
+        | <a href="https://openaitx.github.io/view.html?user=wshobson&project=agents&lang=id">Bahasa Indonesia</a>
+        | <a href="https://openaitx.github.io/view.html?user=wshobson&project=agents&lang=as">অসমীয়া</
+      </div>
+    </div>
+  </details>
+</div>
+
 # Claude Code Subagents Collection
 
 A comprehensive collection of specialized AI subagents for [Claude Code](https://docs.anthropic.com/en/docs/claude-code), designed to enhance development workflows with domain-specific expertise.
 
 ## Overview
 
-This repository contains 56 specialized subagents that extend Claude Code's capabilities. Each subagent is an expert in a specific domain, automatically invoked based on context or explicitly called when needed. All agents are configured with specific Claude models based on task complexity for optimal performance and cost-effectiveness.
+This repository contains 75 specialized subagents that extend Claude Code's capabilities. Each subagent is an expert in a specific domain, automatically invoked based on context or explicitly called when needed. All agents are configured with specific Claude models based on task complexity for optimal performance and cost-effectiveness.
 
 ## Available Subagents
 
@@ -18,6 +49,7 @@ This repository contains 56 specialized subagents that extend Claude Code's capa
 
 ### Language Specialists
 - **[python-pro](python-pro.md)** - Write idiomatic Python code with advanced features and optimizations
+- **[ruby-pro](ruby-pro.md)** - Write idiomatic Ruby code with metaprogramming, Rails patterns, gem development, and testing frameworks
 - **[golang-pro](golang-pro.md)** - Write idiomatic Go code with goroutines, channels, and interfaces
 - **[rust-pro](rust-pro.md)** - Write idiomatic Rust with ownership patterns, lifetimes, and trait implementations
 - **[c-pro](c-pro.md)** - Write efficient C code with proper memory management and system calls
@@ -28,7 +60,10 @@ This repository contains 56 specialized subagents that extend Claude Code's capa
 - **[java-pro](java-pro.md)** - Master modern Java with streams, concurrency, and JVM optimization
 - **[elixir-pro](elixir-pro.md)** - Write idiomatic Elixir code with OTP patterns, functional programming, and Phoenix frameworks
 - **[csharp-pro](csharp-pro.md)** - Write modern C# code with advanced features and .NET optimization
+- **[scala-pro](scala-pro.md)** - Master enterprise-grade Scala development with functional programming, distributed systems, and big data processing
+- **[flutter-expert](flutter-expert.md)** - Master Flutter development with Dart, widgets, and platform integrations
 - **[unity-developer](unity-developer.md)** - Build Unity games with optimized scripts and performance tuning
+- **[minecraft-bukkit-pro](minecraft-bukkit-pro.md)** - Master Minecraft server plugin development with Bukkit, Spigot, and Paper APIs
 - **[ios-developer](ios-developer.md)** - Develop native iOS applications with Swift/SwiftUI
 - **[sql-pro](sql-pro.md)** - Write complex SQL queries, optimize execution plans, and design normalized schemas
 
@@ -36,6 +71,8 @@ This repository contains 56 specialized subagents that extend Claude Code's capa
 - **[devops-troubleshooter](devops-troubleshooter.md)** - Debug production issues, analyze logs, and fix deployment failures
 - **[deployment-engineer](deployment-engineer.md)** - Configure CI/CD pipelines, Docker containers, and cloud deployments
 - **[cloud-architect](cloud-architect.md)** - Design AWS/Azure/GCP infrastructure and optimize cloud costs
+- **[hybrid-cloud-architect](hybrid-cloud-architect.md)** - Design hybrid cloud infrastructure across AWS/Azure/GCP and OpenStack on-premises environments
+- **[kubernetes-architect](kubernetes-architect.md)** - Design cloud-native infrastructure with Kubernetes at its core and GitOps principles across AWS/Azure/GCP and hybrid environments.
 - **[database-optimizer](database-optimizer.md)** - Optimize SQL queries, design efficient indexes, and handle database migrations
 - **[database-admin](database-admin.md)** - Manage database operations, backups, replication, and monitoring
 - **[terraform-specialist](terraform-specialist.md)** - Write advanced Terraform modules, manage state files, and implement IaC best practices
@@ -70,21 +107,35 @@ This repository contains 56 specialized subagents that extend Claude Code's capa
 
 ### Documentation
 - **[docs-architect](docs-architect.md)** - Creates comprehensive technical documentation from existing codebases
+- **[mermaid-expert](mermaid-expert.md)** - Create Mermaid diagrams for flowcharts, sequences, ERDs, and architectures
 - **[reference-builder](reference-builder.md)** - Creates exhaustive technical references and API documentation
 - **[tutorial-engineer](tutorial-engineer.md)** - Creates step-by-step tutorials and educational content from code
 
 ### Business & Marketing
 - **[business-analyst](business-analyst.md)** - Analyze metrics, create reports, and track KPIs
 - **[content-marketer](content-marketer.md)** - Write blog posts, social media content, and email newsletters
+- **[hp-pro](hp-pro.md)** - Partner for hiring, onboarding/offboarding, PTO and leave, performance, compliant policies, and employee relations.
 - **[sales-automator](sales-automator.md)** - Draft cold emails, follow-ups, and proposal templates
 - **[customer-support](customer-support.md)** - Handle support tickets, FAQ responses, and customer emails
 - **[legal-advisor](legal-advisor.md)** - Draft privacy policies, terms of service, disclaimers, and legal notices
 
+### SEO & Content Optimization
+- **[seo-content-auditor](seo-content-auditor.md)** - Analyzes provided content for quality, E-E-A-T signals, and SEO best practices
+- **[seo-meta-optimizer](seo-meta-optimizer.md)** - Creates optimized meta titles, descriptions, and URL suggestions
+- **[seo-keyword-strategist](seo-keyword-strategist.md)** - Analyzes keyword usage, calculates density, suggests semantic variations
+- **[seo-structure-architect](seo-structure-architect.md)** - Optimizes content structure, header hierarchy, and schema markup
+- **[seo-snippet-hunter](seo-snippet-hunter.md)** - Formats content for featured snippets and SERP features
+- **[seo-content-refresher](seo-content-refresher.md)** - Identifies outdated elements and suggests content updates
+- **[seo-cannibalization-detector](seo-cannibalization-detector.md)** - Analyzes multiple pages for keyword overlap and conflicts
+- **[seo-authority-builder](seo-authority-builder.md)** - Analyzes content for E-E-A-T signals and trust indicators
+- **[seo-content-writer](seo-content-writer.md)** - Writes SEO-optimized content based on keywords and briefs
+- **[seo-content-planner](seo-content-planner.md)** - Creates content outlines, topic clusters, and calendars
+
 ## Model Assignments
 
-All 56 subagents are configured with specific Claude models based on task complexity:
+All 75 subagents are configured with specific Claude models based on task complexity:
 
-### 🚀 Haiku (Fast & Cost-Effective) - 9 agents
+### 🚀 Haiku (Fast & Cost-Effective) - 15 agents
 **Model:** `haiku`
 - `data-scientist` - SQL queries and data analysis
 - `api-documenter` - OpenAPI/Swagger documentation
@@ -95,12 +146,20 @@ All 56 subagents are configured with specific Claude models based on task comple
 - `sales-automator` - Cold emails and proposals
 - `search-specialist` - Web research and information gathering
 - `legal-advisor` - Privacy policies and compliance documents
+- `seo-meta-optimizer` - Meta title and description optimization
+- `seo-keyword-strategist` - Keyword density and semantic analysis
+- `seo-structure-architect` - Content structure and schema markup
+- `seo-snippet-hunter` - Featured snippet formatting
+- `seo-content-refresher` - Content freshness updates
+- `seo-cannibalization-detector` - Keyword overlap detection
+- `seo-content-planner` - Content calendars and outlines
 
-### ⚡ Sonnet (Balanced Performance) - 34 agents
+### ⚡ Sonnet (Balanced Performance) - 44 agents
 **Model:** `sonnet`
 
 **Development & Languages:**
 - `python-pro` - Python development with advanced features
+- `ruby-pro` - Ruby development with metaprogramming, Rails patterns, and gem development
 - `javascript-pro` - Modern JavaScript and Node.js
 - `typescript-pro` - Advanced TypeScript with type systems
 - `golang-pro` - Go concurrency and idiomatic patterns
@@ -111,7 +170,10 @@ All 56 subagents are configured with specific Claude models based on task comple
 - `java-pro` - Modern Java with streams and concurrency
 - `elixir-pro` - Elixir with OTP patterns and Phoenix
 - `csharp-pro` - Modern C# with .NET frameworks and patterns
+- `scala-pro` - Enterprise Scala with Apache Pekko, Akka, Spark, and ZIO/Cats Effect
+- `flutter-expert` - Flutter development with state management and animations
 - `unity-developer` - Unity game development and optimization
+- `minecraft-bukkit-pro` - Minecraft plugin development with Bukkit/Spigot/Paper
 - `ios-developer` - Native iOS development with Swift/SwiftUI
 - `frontend-developer` - React components and UI
 - `ui-ux-designer` - Interface design and wireframes
@@ -138,8 +200,13 @@ All 56 subagents are configured with specific Claude models based on task comple
 - `ml-engineer` - ML model deployment
 - `legacy-modernizer` - Framework migrations
 - `payment-integration` - Payment processing
+- `mermaid-expert` - Mermaid diagrams and visual documentation
+- `flutter-expert` - Flutter development
+- `seo-content-auditor` - Content quality and E-E-A-T analysis
+- `seo-authority-builder` - Authority signal optimization
+- `seo-content-writer` - SEO-optimized content creation
 
-### 🧠 Opus (Maximum Capability) - 13 agents
+### 🧠 Opus (Maximum Capability) - 15 agents
 **Model:** `opus`
 - `ai-engineer` - LLM applications and RAG systems
 - `security-auditor` - Vulnerability analysis
@@ -335,6 +402,7 @@ payment-integration → security-auditor → Validated implementation
 
 ### 🔧 Implementation & Development  
 - **python-pro**: Python-specific development tasks
+- **ruby-pro**: Ruby metaprogramming, Rails applications, gem development, RSpec/Minitest testing
 - **golang-pro**: Go-specific development tasks
 - **rust-pro**: Rust-specific development, memory safety, systems programming
 - **c-pro**: C programming, embedded systems, performance-critical code
@@ -343,7 +411,10 @@ payment-integration → security-auditor → Validated implementation
 - **java-pro**: Modern Java development, streams, concurrency, Spring Boot
 - **elixir-pro**: Elixir development, OTP patterns, Phoenix frameworks, functional programming
 - **csharp-pro**: Modern C# development, .NET frameworks, enterprise patterns
+- **scala-pro**: Enterprise Scala with functional programming, Apache Pekko/Akka actors, Apache Spark, ZIO/Cats Effect, reactive architectures
+- **flutter-expert**: Flutter development, Dart, state management, animations, cross-platform deployment
 - **unity-developer**: Unity game development, C# scripting, performance optimization
+- **minecraft-bukkit-pro**: Minecraft plugin development, event systems, server-side features
 - **ios-developer**: Native iOS development with Swift/SwiftUI
 - **sql-pro**: Database queries, schema design, query optimization
 - **mobile-developer**: React Native/Flutter development
@@ -381,7 +452,7 @@ payment-integration → security-auditor → Validated implementation
 - **content-marketer**: SEO content, blog posts, social media, email campaigns
 - **sales-automator**: Cold emails, follow-ups, proposals, lead nurturing
 - **customer-support**: Support tickets, FAQs, help documentation, troubleshooting
-- **legal-advisor** - Draft privacy policies, terms of service, disclaimers, and legal notices 
+- **legal-advisor** - Draft privacy policies, terms of service, disclaimers, and legal notices
 
 ## Best Practices
 
