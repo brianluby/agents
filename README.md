@@ -1,12 +1,18 @@
-# Claude Code Subagents Collection
+# AI Agents Collection for Claude Code & OpenCode
 
-> 🙏 **This repository is forked from [wshobson/agents](https://github.com/wshobson/agents)**, the original creator of this comprehensive subagent collection. Thank you for building this amazing resource for the Claude Code community!
+> 🙏 **This repository is forked from [wshobson/agents](https://github.com/wshobson/agents)**, the original creator of this comprehensive subagent collection. Thank you for building this amazing resource for the AI coding assistant community!
 
-A comprehensive collection of 83 specialized AI subagents for [Claude Code](https://docs.anthropic.com/en/docs/claude-code), providing domain-specific expertise across software development, infrastructure, and business operations.
+A comprehensive collection of specialized AI agents for both [Claude Code](https://docs.anthropic.com/en/docs/claude-code) and [OpenCode](https://opencode.ai/), providing domain-specific expertise across software development, infrastructure, and business operations.
 
 ## Overview
 
-This repository provides production-ready subagents that extend Claude Code's capabilities with specialized knowledge. Each subagent incorporates:
+This repository provides production-ready agents that extend AI coding assistants' capabilities with specialized knowledge. The collection includes:
+
+- **90+ Claude Code agents** - Optimized for Claude's subagent system
+- **OpenCode agents** - Designed with open-source principles and privacy-first approach
+- **Shared agents** - Cross-platform compatible agents
+
+Each agent incorporates:
 
 - Current industry best practices and standards (2024/2025)
 - Production-ready patterns and enterprise architectures
@@ -14,7 +20,33 @@ This repository provides production-ready subagents that extend Claude Code's ca
 - Modern technology stacks and frameworks
 - Optimized model selection based on task complexity
 
-## Agent Categories
+## Repository Structure
+
+```
+agents/
+├── claude/          # Claude Code specific agents
+│   ├── business/
+│   ├── infrastructure/
+│   ├── languages/
+│   ├── quality-security/
+│   └── ...
+├── opencode/        # OpenCode specific agents
+│   ├── open-source/
+│   ├── privacy-security/
+│   ├── infrastructure/
+│   └── ...
+├── shared/          # Cross-platform compatible agents
+├── CLAUDE.md        # Claude Code specific documentation
+├── OPENCODE.md      # OpenCode specific documentation
+└── README.md        # This file
+```
+
+## Platform-Specific Documentation
+
+- **Claude Code agents**: See [CLAUDE.md](CLAUDE.md) for setup and usage
+- **OpenCode agents**: See [OPENCODE.md](OPENCODE.md) for setup and usage
+
+## Claude Code Agent Categories
 
 ### Architecture & System Design
 
@@ -22,23 +54,23 @@ This repository provides production-ready subagents that extend Claude Code's ca
 
 | Agent | Model | Description |
 |-------|-------|-------------|
-| [backend-architect](backend-architect.md) | opus | RESTful API design, microservice boundaries, database schemas |
-| [frontend-developer](frontend-developer.md) | sonnet | React components, responsive layouts, client-side state management |
-| [graphql-architect](graphql-architect.md) | opus | GraphQL schemas, resolvers, federation architecture |
-| [architect-reviewer](architect-review.md) | opus | Architectural consistency analysis and pattern validation |
-| [cloud-architect](cloud-architect.md) | opus | AWS/Azure/GCP infrastructure design and cost optimization |
-| [hybrid-cloud-architect](hybrid-cloud-architect.md) | opus | Multi-cloud strategies across cloud and on-premises environments |
-| [kubernetes-architect](kubernetes-architect.md) | opus | Cloud-native infrastructure with Kubernetes and GitOps |
+| [backend-architect](claude/specialized-domains/backend-architect.md) | opus | RESTful API design, microservice boundaries, database schemas |
+| [frontend-developer](claude/specialized-domains/frontend-developer.md) | sonnet | React components, responsive layouts, client-side state management |
+| [graphql-architect](claude/specialized-domains/graphql-architect.md) | opus | GraphQL schemas, resolvers, federation architecture |
+| [architect-review](claude/quality-security/architect-review.md) | opus | Architectural consistency analysis and pattern validation |
+| [cloud-architect](claude/infrastructure/cloud-architect.md) | opus | AWS/Azure/GCP infrastructure design and cost optimization |
+| [hybrid-cloud-architect](claude/infrastructure/hybrid-cloud-architect.md) | opus | Multi-cloud strategies across cloud and on-premises environments |
+| [kubernetes-architect](claude/infrastructure/kubernetes-architect.md) | opus | Cloud-native infrastructure with Kubernetes and GitOps |
 
 #### UI/UX & Mobile
 
 | Agent | Model | Description |
 |-------|-------|-------------|
-| [ui-ux-designer](ui-ux-designer.md) | sonnet | Interface design, wireframes, design systems |
-| [ui-visual-validator](ui-visual-validator.md) | sonnet | Visual regression testing and UI verification |
-| [mobile-developer](mobile-developer.md) | sonnet | React Native and Flutter application development |
-| [ios-developer](ios-developer.md) | sonnet | Native iOS development with Swift/SwiftUI |
-| [flutter-expert](flutter-expert.md) | sonnet | Advanced Flutter development with state management |
+| [ui-ux-designer](claude/support-documentation/ui-ux-designer.md) | sonnet | Interface design, wireframes, design systems |
+| [ui-visual-validator](claude/quality-security/ui-visual-validator.md) | sonnet | Visual regression testing and UI verification |
+| [mobile-developer](claude/languages/mobile-developer.md) | sonnet | React Native and Flutter application development |
+| [ios-developer](claude/languages/ios-developer.md) | sonnet | Native iOS development with Swift/SwiftUI |
+| [flutter-expert](claude/languages/flutter-expert.md) | sonnet | Advanced Flutter development with state management |
 
 ### Programming Languages
 
@@ -46,37 +78,39 @@ This repository provides production-ready subagents that extend Claude Code's ca
 
 | Agent | Model | Description |
 |-------|-------|-------------|
-| [c-pro](c-pro.md) | sonnet | System programming with memory management and OS interfaces |
-| [cpp-pro](cpp-pro.md) | sonnet | Modern C++ with RAII, smart pointers, STL algorithms |
-| [rust-pro](rust-pro.md) | sonnet | Memory-safe systems programming with ownership patterns |
-| [golang-pro](golang-pro.md) | sonnet | Concurrent programming with goroutines and channels |
+| [c-pro](claude/languages/c-pro.md) | sonnet | System programming with memory management and OS interfaces |
+| [cpp-pro](claude/languages/cpp-pro.md) | sonnet | Modern C++ with RAII, smart pointers, STL algorithms |
+| [rust-pro](claude/languages/rust-pro.md) | sonnet | Memory-safe systems programming with ownership patterns |
+| [golang-pro](claude/languages/golang-pro.md) | sonnet | Concurrent programming with goroutines and channels |
 
 #### Web & Application
 
 | Agent | Model | Description |
 |-------|-------|-------------|
-| [javascript-pro](javascript-pro.md) | sonnet | Modern JavaScript with ES6+, async patterns, Node.js |
-| [typescript-pro](typescript-pro.md) | sonnet | Advanced TypeScript with type systems and generics |
-| [python-pro](python-pro.md) | sonnet | Python development with advanced features and optimization |
-| [ruby-pro](ruby-pro.md) | sonnet | Ruby with metaprogramming, Rails patterns, gem development |
-| [php-pro](php-pro.md) | sonnet | Modern PHP with frameworks and performance optimization |
+| [javascript-pro](claude/languages/javascript-pro.md) | sonnet | Modern JavaScript with ES6+, async patterns, Node.js |
+| [typescript-pro](claude/languages/typescript-pro.md) | sonnet | Advanced TypeScript with type systems and generics |
+| [python-pro](claude/languages/python-pro.md) | sonnet | Python development with advanced features and optimization |
+| [ruby-pro](claude/languages/ruby-pro.md) | sonnet | Ruby with metaprogramming, Rails patterns, gem development |
+| [php-pro](claude/languages/php-pro.md) | sonnet | Modern PHP with frameworks and performance optimization |
 
 #### Enterprise & JVM
 
 | Agent | Model | Description |
 |-------|-------|-------------|
-| [java-pro](java-pro.md) | sonnet | Modern Java with streams, concurrency, JVM optimization |
-| [scala-pro](scala-pro.md) | sonnet | Enterprise Scala with functional programming and distributed systems |
-| [csharp-pro](csharp-pro.md) | sonnet | C# development with .NET frameworks and patterns |
+| [java-pro](claude/languages/java-pro.md) | sonnet | Modern Java with streams, concurrency, JVM optimization |
+| [scala-pro](claude/languages/scala-pro.md) | sonnet | Enterprise Scala with functional programming and distributed systems |
+| [csharp-pro](claude/languages/csharp-pro.md) | sonnet | C# development with .NET frameworks and patterns |
 
 #### Specialized Platforms
 
 | Agent | Model | Description |
 |-------|-------|-------------|
-| [elixir-pro](elixir-pro.md) | sonnet | Elixir with OTP patterns and Phoenix frameworks |
-| [unity-developer](unity-developer.md) | sonnet | Unity game development and optimization |
-| [minecraft-bukkit-pro](minecraft-bukkit-pro.md) | sonnet | Minecraft server plugin development |
-| [sql-pro](sql-pro.md) | sonnet | Complex SQL queries and database optimization |
+| [elixir-pro](claude/languages/elixir-pro.md) | sonnet | Elixir with OTP patterns and Phoenix frameworks |
+| [unity-developer](claude/languages/unity-developer.md) | sonnet | Unity game development and optimization |
+| [minecraft-bukkit-pro](claude/languages/minecraft-bukkit-pro.md) | sonnet | Minecraft server plugin development |
+| [django-pro](claude/specialized-domains/django-pro.md) | sonnet | Django 5.x with async views, DRF, Celery, Django Channels |
+| [fastapi-pro](claude/specialized-domains/fastapi-pro.md) | sonnet | High-performance async APIs with FastAPI, SQLAlchemy 2.0 |
+| [sql-pro](claude/research-analysis/sql-pro.md) | sonnet | Complex SQL queries and database optimization |
 
 ### Infrastructure & Operations
 
@@ -84,24 +118,27 @@ This repository provides production-ready subagents that extend Claude Code's ca
 
 | Agent | Model | Description |
 |-------|-------|-------------|
-| [devops-troubleshooter](devops-troubleshooter.md) | sonnet | Production debugging, log analysis, deployment troubleshooting |
-| [deployment-engineer](deployment-engineer.md) | sonnet | CI/CD pipelines, containerization, cloud deployments |
-| [terraform-specialist](terraform-specialist.md) | opus | Infrastructure as Code with Terraform modules and state management |
-| [dx-optimizer](dx-optimizer.md) | sonnet | Developer experience optimization and tooling improvements |
+| [devops-troubleshooter](claude/infrastructure/devops-troubleshooter.md) | sonnet | Production debugging, log analysis, deployment troubleshooting |
+| [deployment-engineer](claude/infrastructure/deployment-engineer.md) | sonnet | CI/CD pipelines, containerization, cloud deployments |
+| [terraform-specialist](claude/infrastructure/terraform-specialist.md) | opus | Infrastructure as Code with Terraform modules and state management |
+| [kubernetes-engineer](claude/infrastructure/kubernetes-engineer.md) | sonnet | Advanced K8s configurations, operator development, cluster management |
+| [platform-engineer](claude/infrastructure/platform-engineer.md) | sonnet | Internal developer platforms, service mesh, developer tooling |
+| [sre-engineer](claude/infrastructure/sre-engineer.md) | opus | SLIs/SLOs, error budgets, reliability practices |
+| [dx-optimizer](claude/specialized-domains/dx-optimizer.md) | sonnet | Developer experience optimization and tooling improvements |
 
 #### Database Management
 
 | Agent | Model | Description |
 |-------|-------|-------------|
-| [database-optimizer](database-optimizer.md) | opus | Query optimization, index design, migration strategies |
-| [database-admin](database-admin.md) | sonnet | Database operations, backup, replication, monitoring |
+| [database-optimizer](claude/infrastructure/database-optimizer.md) | opus | Query optimization, index design, migration strategies |
+| [database-admin](claude/infrastructure/database-admin.md) | sonnet | Database operations, backup, replication, monitoring |
 
 #### Incident Response & Network
 
 | Agent | Model | Description |
 |-------|-------|-------------|
-| [incident-responder](incident-responder.md) | opus | Production incident management and resolution |
-| [network-engineer](network-engineer.md) | sonnet | Network debugging, load balancing, traffic analysis |
+| [incident-responder](claude/infrastructure/incident-responder.md) | opus | Production incident management and resolution |
+| [network-engineer](claude/infrastructure/network-engineer.md) | sonnet | Network debugging, load balancing, traffic analysis |
 
 ### Quality Assurance & Security
 
@@ -109,29 +146,29 @@ This repository provides production-ready subagents that extend Claude Code's ca
 
 | Agent | Model | Description |
 |-------|-------|-------------|
-| [code-reviewer](code-reviewer.md) | opus | Code review with security focus and production reliability |
-| [security-auditor](security-auditor.md) | opus | Vulnerability assessment and OWASP compliance |
-| [backend-security-coder](backend-security-coder.md) | opus | Secure backend coding practices, API security implementation |
-| [frontend-security-coder](frontend-security-coder.md) | opus | XSS prevention, CSP implementation, client-side security |
-| [mobile-security-coder](mobile-security-coder.md) | opus | Mobile security patterns, WebView security, biometric auth |
-| [architect-reviewer](architect-review.md) | opus | Architectural consistency and pattern validation |
+| [code-reviewer](claude/quality-security/code-reviewer.md) | opus | Code review with security focus and production reliability |
+| [security-auditor](claude/quality-security/security-auditor.md) | opus | Vulnerability assessment and OWASP compliance |
+| [backend-security-coder](claude/quality-security/backend-security-coder.md) | opus | Secure backend coding practices, API security implementation |
+| [frontend-security-coder](claude/quality-security/frontend-security-coder.md) | opus | XSS prevention, CSP implementation, client-side security |
+| [mobile-security-coder](claude/quality-security/mobile-security-coder.md) | opus | Mobile security patterns, WebView security, biometric auth |
+| [architect-reviewer](claude/quality-security/architect-review.md) | opus | Architectural consistency and pattern validation |
 
 #### Testing & Debugging
 
 | Agent | Model | Description |
 |-------|-------|-------------|
-| [test-automator](test-automator.md) | sonnet | Comprehensive test suite creation (unit, integration, e2e) |
-| [tdd-orchestrator](tdd-orchestrator.md) | sonnet | Test-Driven Development methodology guidance |
-| [debugger](debugger.md) | sonnet | Error resolution and test failure analysis |
-| [error-detective](error-detective.md) | sonnet | Log analysis and error pattern recognition |
+| [test-automator](claude/quality-security/test-automator.md) | sonnet | Comprehensive test suite creation (unit, integration, e2e) |
+| [tdd-orchestrator](claude/quality-security/tdd-orchestrator.md) | sonnet | Test-Driven Development methodology guidance |
+| [debugger](claude/quality-security/debugger.md) | sonnet | Error resolution and test failure analysis |
+| [error-detective](claude/quality-security/error-detective.md) | sonnet | Log analysis and error pattern recognition |
 
 #### Performance & Observability
 
 | Agent | Model | Description |
 |-------|-------|-------------|
-| [performance-engineer](performance-engineer.md) | opus | Application profiling and optimization |
-| [observability-engineer](observability-engineer.md) | opus | Production monitoring, distributed tracing, SLI/SLO management |
-| [search-specialist](search-specialist.md) | haiku | Advanced web research and information synthesis |
+| [performance-engineer](claude/quality-security/performance-engineer.md) | opus | Application profiling and optimization |
+| [observability-engineer](claude/infrastructure/observability-engineer.md) | opus | Production monitoring, distributed tracing, SLI/SLO management |
+| [search-specialist](claude/research-analysis/search-specialist.md) | haiku | Advanced web research and information synthesis |
 
 ### Data & AI
 
@@ -139,27 +176,28 @@ This repository provides production-ready subagents that extend Claude Code's ca
 
 | Agent | Model | Description |
 |-------|-------|-------------|
-| [data-scientist](data-scientist.md) | opus | Data analysis, SQL queries, BigQuery operations |
-| [data-engineer](data-engineer.md) | sonnet | ETL pipelines, data warehouses, streaming architectures |
+| [data-scientist](claude/research-analysis/data-scientist.md) | opus | Data analysis, SQL queries, BigQuery operations |
+| [data-engineer](claude/research-analysis/data-engineer.md) | sonnet | ETL pipelines, data warehouses, streaming architectures |
 
 #### Machine Learning & AI
 
 | Agent | Model | Description |
 |-------|-------|-------------|
-| [ai-engineer](ai-engineer.md) | opus | LLM applications, RAG systems, prompt pipelines |
-| [ml-engineer](ml-engineer.md) | opus | ML pipelines, model serving, feature engineering |
-| [mlops-engineer](mlops-engineer.md) | opus | ML infrastructure, experiment tracking, model registries |
-| [prompt-engineer](prompt-engineer.md) | opus | LLM prompt optimization and engineering |
+| [ai-engineer](claude/specialized-domains/ai-engineer.md) | opus | LLM applications, RAG systems, prompt pipelines |
+| [ml-engineer](claude/specialized-domains/ml-engineer.md) | opus | ML pipelines, model serving, feature engineering |
+| [mlops-engineer](claude/specialized-domains/mlops-engineer.md) | opus | ML infrastructure, experiment tracking, model registries |
+| [prompt-engineer](claude/specialized-domains/prompt-engineer.md) | opus | LLM prompt optimization and engineering |
 
 ### Documentation & Technical Writing
 
 | Agent | Model | Description |
 |-------|-------|-------------|
-| [docs-architect](docs-architect.md) | opus | Comprehensive technical documentation generation |
-| [api-documenter](api-documenter.md) | sonnet | OpenAPI/Swagger specifications and developer docs |
-| [reference-builder](reference-builder.md) | haiku | Technical references and API documentation |
-| [tutorial-engineer](tutorial-engineer.md) | sonnet | Step-by-step tutorials and educational content |
-| [mermaid-expert](mermaid-expert.md) | sonnet | Diagram creation (flowcharts, sequences, ERDs) |
+| [docs-architect](claude/support-documentation/docs-architect.md) | opus | Comprehensive technical documentation generation |
+| [technical-writer](claude/support-documentation/technical-writer.md) | opus | User guides, API documentation, tutorials |
+| [api-documenter](claude/support-documentation/api-documenter.md) | sonnet | OpenAPI/Swagger specifications and developer docs |
+| [reference-builder](claude/support-documentation/reference-builder.md) | haiku | Technical references and API documentation |
+| [tutorial-engineer](claude/support-documentation/tutorial-engineer.md) | sonnet | Step-by-step tutorials and educational content |
+| [mermaid-expert](claude/support-documentation/mermaid-expert.md) | sonnet | Diagram creation (flowcharts, sequences, ERDs) |
 
 ### Business & Operations
 
@@ -167,48 +205,49 @@ This repository provides production-ready subagents that extend Claude Code's ca
 
 | Agent | Model | Description |
 |-------|-------|-------------|
-| [business-analyst](business-analyst.md) | sonnet | Metrics analysis, reporting, KPI tracking |
-| [quant-analyst](quant-analyst.md) | opus | Financial modeling, trading strategies, market analysis |
-| [risk-manager](risk-manager.md) | sonnet | Portfolio risk monitoring and management |
+| [business-analyst](claude/business/business-analyst.md) | sonnet | Metrics analysis, reporting, KPI tracking |
+| [product-manager](claude/business/product-manager.md) | haiku | Feature prioritization, roadmaps, stakeholder alignment |
+| [quant-analyst](claude/specialized-domains/quant-analyst.md) | opus | Financial modeling, trading strategies, market analysis |
+| [risk-manager](claude/specialized-domains/risk-manager.md) | sonnet | Portfolio risk monitoring and management |
 
 #### Marketing & Sales
 
 | Agent | Model | Description |
 |-------|-------|-------------|
-| [content-marketer](content-marketer.md) | sonnet | Blog posts, social media, email campaigns |
-| [sales-automator](sales-automator.md) | haiku | Cold emails, follow-ups, proposal generation |
+| [content-marketer](claude/business/content-marketer.md) | sonnet | Blog posts, social media, email campaigns |
+| [sales-automator](claude/business/sales-automator.md) | haiku | Cold emails, follow-ups, proposal generation |
 
 #### Support & Legal
 
 | Agent | Model | Description |
 |-------|-------|-------------|
-| [customer-support](customer-support.md) | sonnet | Support tickets, FAQ responses, customer communication |
-| [hr-pro](hr-pro.md) | opus | HR operations, policies, employee relations |
-| [legal-advisor](legal-advisor.md) | opus | Privacy policies, terms of service, legal documentation |
+| [customer-support](claude/business/customer-support.md) | sonnet | Support tickets, FAQ responses, customer communication |
+| [hr-pro](claude/business/hr-pro.md) | opus | HR operations, policies, employee relations |
+| [legal-advisor](claude/business/legal-advisor.md) | opus | Privacy policies, terms of service, legal documentation |
 
 ### Specialized Domains
 
 | Agent | Model | Description |
 |-------|-------|-------------|
-| [blockchain-developer](blockchain-developer.md) | sonnet | Web3 apps, smart contracts, DeFi protocols |
-| [payment-integration](payment-integration.md) | sonnet | Payment processor integration (Stripe, PayPal) |
-| [legacy-modernizer](legacy-modernizer.md) | sonnet | Legacy code refactoring and modernization |
-| [context-manager](context-manager.md) | haiku | Multi-agent context management |
+| [blockchain-developer](claude/specialized-domains/blockchain-developer.md) | sonnet | Web3 apps, smart contracts, DeFi protocols |
+| [payment-integration](claude/specialized-domains/payment-integration.md) | sonnet | Payment processor integration (Stripe, PayPal) |
+| [legacy-modernizer](claude/quality-security/legacy-modernizer.md) | sonnet | Legacy code refactoring and modernization |
+| [context-manager](claude/research-analysis/context-manager.md) | haiku | Multi-agent context management |
 
 ### SEO & Content Optimization
 
 | Agent | Model | Description |
 |-------|-------|-------------|
-| [seo-content-auditor](seo-content-auditor.md) | sonnet | Content quality analysis, E-E-A-T signals assessment |
-| [seo-meta-optimizer](seo-meta-optimizer.md) | haiku | Meta title and description optimization |
-| [seo-keyword-strategist](seo-keyword-strategist.md) | haiku | Keyword analysis and semantic variations |
-| [seo-structure-architect](seo-structure-architect.md) | haiku | Content structure and schema markup |
-| [seo-snippet-hunter](seo-snippet-hunter.md) | haiku | Featured snippet formatting |
-| [seo-content-refresher](seo-content-refresher.md) | haiku | Content freshness analysis |
-| [seo-cannibalization-detector](seo-cannibalization-detector.md) | haiku | Keyword overlap detection |
-| [seo-authority-builder](seo-authority-builder.md) | sonnet | E-E-A-T signal analysis |
-| [seo-content-writer](seo-content-writer.md) | sonnet | SEO-optimized content creation |
-| [seo-content-planner](seo-content-planner.md) | haiku | Content planning and topic clusters |
+| [seo-content-auditor](claude/seo/seo-content-auditor.md) | sonnet | Content quality analysis, E-E-A-T signals assessment |
+| [seo-meta-optimizer](claude/seo/seo-meta-optimizer.md) | haiku | Meta title and description optimization |
+| [seo-keyword-strategist](claude/seo/seo-keyword-strategist.md) | haiku | Keyword analysis and semantic variations |
+| [seo-structure-architect](claude/seo/seo-structure-architect.md) | haiku | Content structure and schema markup |
+| [seo-snippet-hunter](claude/seo/seo-snippet-hunter.md) | haiku | Featured snippet formatting |
+| [seo-content-refresher](claude/seo/seo-content-refresher.md) | haiku | Content freshness analysis |
+| [seo-cannibalization-detector](claude/seo/seo-cannibalization-detector.md) | haiku | Keyword overlap detection |
+| [seo-authority-builder](claude/seo/seo-authority-builder.md) | sonnet | E-E-A-T signal analysis |
+| [seo-content-writer](claude/seo/seo-content-writer.md) | sonnet | SEO-optimized content creation |
+| [seo-content-planner](claude/seo/seo-content-planner.md) | haiku | Content planning and topic clusters |
 
 ## Model Configuration
 
@@ -218,9 +257,9 @@ Agents are assigned to specific Claude models based on task complexity and compu
 
 | Model | Agent Count | Use Case |
 |-------|-------------|----------|
-| Haiku | 11 | Quick, focused tasks with minimal computational overhead |
-| Sonnet | 46 | Standard development and specialized engineering tasks |
-| Opus | 26 | Complex reasoning, architecture, and critical analysis |
+| Haiku | 12 | Quick, focused tasks with minimal computational overhead |
+| Sonnet | 49 | Standard development and specialized engineering tasks |
+| Opus | 29 | Complex reasoning, architecture, and critical analysis |
 
 ### Haiku Model Agents
 
@@ -250,16 +289,61 @@ Agents are assigned to specific Claude models based on task complexity and compu
 | Business Critical | 4 | `docs-architect`, `hr-pro`, `legal-advisor`, `quant-analyst` |
 | Security Specialists | 4 | `backend-security-coder`, `frontend-security-coder`, `mobile-security-coder`, `sre-engineer` |
 
+## OpenCode Agents
+
+OpenCode agents are designed with open-source principles, privacy-first architectures, and transparency. They follow OpenCode's specific format and configuration options.
+
+### Available OpenCode Agents
+
+#### Open Source & Community
+- **[license-compliance-guardian](opencode/open-source/license-compliance-guardian.md)** - License compatibility analysis and compliance automation
+- **oss-contribution-mentor** - Guide open-source contributions and PR best practices
+- **fork-sync-orchestrator** - Manage complex fork relationships and upstream syncing
+
+#### Privacy & Security
+- **[privacy-first-architect](opencode/privacy-security/privacy-first-architect.md)** - Design privacy-preserving systems and GDPR compliance
+- **zero-knowledge-engineer** - Implement zero-knowledge proofs and privacy protocols
+- **encryption-specialist** - End-to-end encryption and secure communication
+
+#### Self-Hosting & Infrastructure
+- **[self-hosting-specialist](opencode/infrastructure/self-hosting-specialist.md)** - Convert cloud services to self-hosted alternatives
+- **edge-computing-optimizer** - Optimize for resource-constrained environments
+- **container-orchestrator** - Docker and Kubernetes for on-premise deployments
+
+### OpenCode Features
+
+- **Open-source focused**: Prioritizes FOSS tools and libraries
+- **Privacy by default**: Local-first processing and data minimization
+- **Transparent operation**: Includes reasoning traces and decision explanations
+- **Community oriented**: Supports collaborative development patterns
+- **Self-hostable**: Designed for on-premise and air-gapped deployments
+
 ## Installation
 
-Clone the repository to the Claude agents directory:
+### For Claude Code
 
 ```bash
 cd ~/.claude
 git clone https://github.com/brianluby/agents.git
+# Claude Code agents are in the claude/ directory
 ```
 
-The subagents will be automatically available to Claude Code once placed in the `~/.claude/agents/` directory.
+The Claude Code agents will be automatically available once placed in the `~/.claude/agents/` directory.
+
+### For OpenCode
+
+```bash
+# Clone the repository
+git clone https://github.com/brianluby/agents.git
+
+# Link OpenCode agents globally
+ln -s /path/to/agents/opencode/* ~/.config/opencode/agent/
+
+# Or link to a project
+ln -s /path/to/agents/opencode/* .opencode/agent/
+```
+
+See [OPENCODE.md](OPENCODE.md) for detailed OpenCode setup instructions.
 
 ## Usage
 
@@ -356,7 +440,7 @@ Subagents coordinate automatically for complex tasks. The system intelligently s
 
 ### Integration with Claude Code Commands
 
-For sophisticated multi-agent orchestration, use the [Claude Code Commands](https://github.com/wshobson/commands) collection which provides 52 pre-built slash commands:
+For sophisticated multi-agent orchestration, use the [Claude Code Commands](https://github.com/brianluby/commands) collection which provides 52 pre-built slash commands:
 
 ```
 /full-stack-feature   # Coordinates 8+ agents for complete feature development
@@ -429,6 +513,7 @@ payment-integration → security-auditor → Validated implementation
 |-------------------|--------|-------------------|
 | Systems Programming | `c-pro`, `cpp-pro`, `rust-pro`, `golang-pro` | OS interfaces, embedded systems, high performance |
 | Web Development | `javascript-pro`, `typescript-pro`, `python-pro`, `ruby-pro`, `php-pro` | Full-stack web applications, APIs, scripting |
+| Web Frameworks | `django-pro`, `fastapi-pro` | Django and FastAPI development |
 | Enterprise | `java-pro`, `csharp-pro`, `scala-pro` | Large-scale applications, enterprise systems |
 | Mobile | `ios-developer`, `flutter-expert`, `mobile-developer` | Native and cross-platform mobile apps |
 | Specialized | `elixir-pro`, `unity-developer`, `minecraft-bukkit-pro` | Domain-specific development |
@@ -443,6 +528,9 @@ payment-integration → security-auditor → Validated implementation
 | Database Operations | `database-admin` | Backup, replication, disaster recovery |
 | Infrastructure as Code | `terraform-specialist` | Terraform modules, state management |
 | Network Issues | `network-engineer` | Network debugging, load balancing |
+| Kubernetes | `kubernetes-engineer` | K8s configurations, cluster management |
+| Platform Engineering | `platform-engineer` | Internal developer platforms, service mesh |
+| Site Reliability | `sre-engineer` | SLIs/SLOs, error budgets, reliability practices |
 
 ### Quality & Security
 
@@ -453,6 +541,9 @@ payment-integration → security-auditor → Validated implementation
 | Test Creation | `test-automator` | Unit, integration, E2E test suites |
 | Performance Issues | `performance-engineer` | Profiling, optimization |
 | Bug Investigation | `debugger` | Error resolution, root cause analysis |
+| QA Engineering | `qa-engineer` | Manual testing strategies, test plans |
+| Config Security | `config-security-auditor` | Configuration security, secrets management |
+| Supply Chain Security | `supply-chain-security` | Dependency scanning, SBOM generation |
 
 ### Data & Machine Learning
 
@@ -469,6 +560,10 @@ payment-integration → security-auditor → Validated implementation
 |------|------------------|------------------|
 | Technical Docs | `docs-architect` | Comprehensive documentation generation |
 | API Documentation | `api-documenter` | OpenAPI/Swagger specifications |
+| Technical Writing | `technical-writer` | User guides, tutorials, documentation |
+| Tutorial Creation | `tutorial-engineer` | Step-by-step educational content |
+| Reference Building | `reference-builder` | Technical references, API docs |
+| Product Management | `product-manager` | Feature prioritization, roadmaps |
 | Business Metrics | `business-analyst` | KPI tracking, reporting |
 | Legal Compliance | `legal-advisor` | Privacy policies, terms of service |
 
@@ -534,4 +629,4 @@ MIT License - see [LICENSE](LICENSE) file for details.
 - [Claude Code Documentation](https://docs.anthropic.com/en/docs/claude-code)
 - [Subagents Documentation](https://docs.anthropic.com/en/docs/claude-code/sub-agents)
 - [Claude Code GitHub](https://github.com/anthropics/claude-code)
-- [Claude Code Commands](https://github.com/wshobson/commands)
+- [Claude Code Commands](https://github.com/brianluby/commands)
