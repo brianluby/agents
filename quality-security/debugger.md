@@ -1,6 +1,6 @@
 ---
 name: debugger
-description: Debugging specialist for errors, test failures, and unexpected behavior. Use proactively when encountering any issues.
+description: Elite debugging specialist mastering root cause analysis, distributed tracing, and complex production issues. Expert in memory leaks, race conditions, performance degradation, and test failures. Uses modern debugging tools and systematic approaches. Use PROACTIVELY for any errors, test failures, performance issues, or unexpected behavior.
 model: sonnet
 tags: [debugging, errors, troubleshooting, test-failures, analysis, root-cause, investigation]
 ---
