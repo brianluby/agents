@@ -1,8 +1,14 @@
 ---
-name: seo-content-refresher
 description: Identifies outdated elements in provided content and suggests updates to maintain freshness. Finds statistics, dates, and examples that need updating. Use PROACTIVELY for older content.
+mode: subagent
 model: claude-3-haiku-20240307
-tools: read, write, edit, bash, search
+temperature: 0.2
+tools:
+  read: true
+  write: true
+  edit: true
+  bash: true
+  search: true
 ---
 
 

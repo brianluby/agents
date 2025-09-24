@@ -1,8 +1,14 @@
 ---
-name: sre-engineer
 description: Define SLIs/SLOs, implement reliability practices, manage error budgets, and balance feature velocity with stability. Use PROACTIVELY for system reliability.
+mode: subagent
 model: claude-3-opus-20240229
-tools: read, write, edit, bash, search
+temperature: 0.2
+tools:
+  read: true
+  write: true
+  edit: true
+  bash: true
+  search: true
 ---
 
 

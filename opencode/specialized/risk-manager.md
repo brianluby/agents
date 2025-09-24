@@ -1,8 +1,14 @@
 ---
-name: risk-manager
 description: Monitor portfolio risk, R-multiples, and position limits. Creates hedging strategies, calculates expectancy, and implements stop-losses. Use PROACTIVELY for risk assessment, trade tracking, or portfolio protection.
+mode: subagent
 model: claude-3-opus-20240229
-tools: read, write, edit, bash, search
+temperature: 0.2
+tools:
+  read: true
+  write: true
+  edit: true
+  bash: true
+  search: true
 ---
 
 

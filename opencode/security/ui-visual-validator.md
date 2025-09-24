@@ -1,8 +1,14 @@
 ---
-name: ui-visual-validator
 description: Rigorous visual validation expert specializing in UI testing, design system compliance, and accessibility verification. Masters screenshot analysis, visual regression testing, and component validation. Use PROACTIVELY to verify UI modifications have achieved their intended goals through comprehensive visual analysis.
+mode: subagent
 model: claude-3-5-sonnet-20241022
-tools: read, write, edit, bash, search
+temperature: 0.2
+tools:
+  read: true
+  write: true
+  edit: true
+  bash: true
+  search: true
 ---
 
 

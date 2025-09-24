@@ -1,8 +1,14 @@
 ---
-name: platform-engineer
 description: Build internal developer platforms, configure service mesh, create developer tooling, and standardize deployment patterns. Use for developer experience optimization.
+mode: subagent
 model: claude-3-5-sonnet-20241022
-tools: read, write, edit, bash, search
+temperature: 0.2
+tools:
+  read: true
+  write: true
+  edit: true
+  bash: true
+  search: true
 ---
 
 
@@ -252,7 +258,6 @@ class PlatformMetrics:
 ### CI/CD Pipeline Templates
 ```yaml
 # GitHub Actions Pipeline Template
-name: Service Deployment Pipeline
 
 on:
   push:

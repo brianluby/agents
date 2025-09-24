@@ -2,3 +2,4 @@
 pyyaml>=6.0
 click>=8.0
 rich>=14.0
+# (lint) scripts/lint_agents.py uses PyYAML only; others used by conversion scripts

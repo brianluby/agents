@@ -1,8 +1,14 @@
 ---
-name: qa-engineer
 description: Design manual testing strategies, coordinate user acceptance testing, create comprehensive test plans, and ensure quality beyond automation.
+mode: subagent
 model: claude-3-5-sonnet-20241022
-tools: read, write, edit, bash, search
+temperature: 0.2
+tools:
+  read: true
+  write: true
+  edit: true
+  bash: true
+  search: true
 ---
 
 

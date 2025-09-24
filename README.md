@@ -373,6 +373,30 @@ ln -s /path/to/agents/opencode/* .opencode/agent/
 
 See [OPENCODE.md](OPENCODE.md) for detailed OpenCode setup instructions.
 
+### Linting Agents
+
+Validate agent metadata before committing:
+```bash
+python scripts/lint_agents.py --roots opencode claude --require-model
+```
+Auto-fill missing model values:
+```bash
+python scripts/lint_agents.py --roots opencode --fix-missing-model anthropic/claude-sonnet-4-20250514
+```
+Auto-fix canonical key ordering & validate allowed tools:
+```bash
+python scripts/lint_agents.py --roots opencode claude --check-order --require-model
+```
+Soft (non-failing) report mode:
+```bash
+python scripts/lint_agents.py --roots opencode --require-model --warn-only
+```
+Install pre-commit hook:
+```bash
+ln -s ../../.githooks/agent-lint .git/hooks/pre-commit
+```
+See CHANGELOG.md for normalization history.
+
 ## Usage
 
 ### Automatic Delegation

@@ -10,180 +10,229 @@ This repository contains AI agents for both Claude Code and OpenCode platforms. 
 
 OpenCode agents use Markdown files with YAML frontmatter. The frontmatter configures the agent's behavior and capabilities.
 
-### Required Fields
+### Frontmatter Specification (Canonical Order)
+
+The recommended ordering of keys (omit any not used):
 
 ```yaml
 ---
-description: Brief explanation of the agent's purpose and capabilities
-mode: subagent  # Options: primary, subagent, all
----
-```
-
-### Optional Fields
-
-```yaml
----
-model: anthropic/claude-sonnet-4-20250514  # Full model specification
-temperature: 0.7  # Controls response creativity (0.0-1.0)
-tools:  # Granular tool control
+description: Concise explanation of the agent's purpose
+mode: subagent                 # primary | subagent | all
+model: REPLACE_WITH_MODEL      # e.g. anthropic/claude-sonnet-4-20250514
+temperature: 0.2               # 0.0-1.0 (determinism → creativity)
+tools:                         # granular tool permissions (boolean map)
+  read: true
   write: true
-  edit: false
+  edit: true
   bash: true
-permissions:  # Action permissions
-  create_files: true
-  modify_files: false
-prompt: custom_prompt.md  # Reference to custom prompt file
+  search: true
+# (optional additional keys: permissions, prompt, tags*, etc.)
 ---
 ```
+
+Notes:
+- `description` + `mode` are required.
+- `model` is recommended (kept optional here to avoid forcing defaults during iterative authoring).
+- `temperature` should be present; default to `0.2` for deterministic technical agents.
+- `tools` MUST be a mapping, never a single-line string. Only include tools actually needed.
+- The `name:` field is intentionally removed (filename serves as identifier).
+- Legacy single-line style like `tools: read, write, edit` is unsupported—convert to the mapping form above.
+
+### Minimal Example
+
+```yaml
+---
+description: High-signal security code reviewer for backend services
+mode: subagent
+temperature: 0.2
+tools:
+  read: true
+  edit: true
+  search: true
+---
+```
+
+### Legacy Normalization (Migration Performed)
+
+A repository-wide normalization pass was executed (September 2025) to:
+- Add `mode: subagent` where missing
+- Convert legacy comma-delimited `tools:` lines to mapping form
+- Remove inconsistent single-line tool declarations
+- (Upcoming in this change) Remove all `name:` fields and add missing `temperature: 0.2`
+
+If adding older agents, re-run the migration logic manually or follow the checklist above.
+
+### Migration: Converting Single-Line Tools
+
+Before:
+```yaml
+tools: read, write, edit, bash, search
+```
+Convert to:
+```yaml
+tools:
+  read: true
+  write: true
+  edit: true
+  bash: true
+  search: true
+```
+Drop any tools not required by the role.
+
+### Referencing the Canonical Template
+
+A maintained template lives at: `opencode/agent-template.md` — copy it when creating new agents instead of duplicating ad‑hoc snippets from documentation.
 
 ## Agent Categories
 
 ### OpenCode Directory Structure
 
-The `opencode/` directory now contains all 97 agents organized into:
+The `opencode/` directory contains agents organized into functional categories:
 
-- **analysis/** (5 agents): Data scientists, SQL experts, search specialists
-- **business/** (7 agents): Product managers, HR, business analysts
-- **development/** (18 agents): All programming language specialists
-- **documentation/** (6 agents): Technical writers, API documenters
-- **gaming/** (2 agents): Unity developer, Minecraft plugin expert
-- **infrastructure/** (15 agents): Cloud architects, DevOps, self-hosting
-- **marketing/** (10 agents): SEO specialists, content marketers
-- **open-source/** (1 agent): License compliance guardian
-- **privacy-security/** (1 agent): Privacy-first architect
-- **security/** (16 agents): Security auditors, code reviewers
-- **specialized/** (14 agents): AI/ML, blockchain, finance experts
-- **tools/** (2 agents): Mermaid diagrams, UI validators
+- **analysis/**: Data scientists, SQL experts, search specialists
+- **business/**: Product managers, HR, business analysts
+- **development/**: Programming language and framework specialists
+- **documentation/**: Technical writers, API documenters
+- **gaming/**: Unity developer, Minecraft plugin expert
+- **infrastructure/**: Cloud architects, DevOps, self-hosting
+- **marketing/**: SEO specialists, content strategists
+- **open-source/**: License compliance guardian
+- **privacy-security/**: Privacy-first architect
+- **security/**: Security auditors, code reviewers
+- **specialized/**: AI/ML, blockchain, finance, niche domains
+- **tools/**: Diagramming, UI validation utilities
 
 ### Shared Agents
 
-The `shared/` directory contains agents that work across both Claude Code and OpenCode platforms with minimal modifications.
+The `shared/` directory (if present) can contain cross-platform agents; otherwise conversion scripts handle translations.
 
 ## Creating OpenCode Agents
 
-### Agent Template
+Use the `opencode/agent-template.md` file as the authoritative starting point.
 
-```markdown
----
-description: [Concise description of agent's purpose and when to use it]
-mode: subagent
-model: anthropic/claude-sonnet-4-20250514
-temperature: 0.7
-tools:
-  write: true
-  edit: true
-  bash: true
-  read: true
----
-
-You are a [role] specializing in [domain/expertise].
-
-## Purpose
-[Detailed explanation of the agent's role and objectives]
-
-## Capabilities
-- [List key capabilities and areas of expertise]
-- [Include specific tools, frameworks, or methodologies]
-
-## Approach
-1. [Step-by-step approach to handling tasks]
-2. [Include best practices and methodologies]
-
-## Examples
-- [Example use cases or interactions]
-```
+Key authoring steps:
+1. Copy the template; rename file using lowercase hyphenated role (e.g. `cloud-architect.md`).
+2. Update `description` (<= 120 chars, action-oriented).
+3. Set `mode` (typically `subagent` unless designing a primary orchestration agent).
+4. Choose a `model` if needed; otherwise rely on platform default.
+5. Keep `temperature: 0.2` unless creative ideation is core (raise to 0.4–0.6).
+6. Trim `tools` to the minimal required set.
+7. Tailor prompt sections (Purpose, Capabilities, Workflow, Quality Bar, Anti-Goals, Examples).
 
 ### Model Selection
 
-OpenCode uses full model specifications:
-- `anthropic/claude-sonnet-4-20250514` - Standard tasks
-- `anthropic/claude-opus-4-20250514` - Complex reasoning
-- `anthropic/claude-haiku-4-20250514` - Quick, simple tasks
+OpenCode uses fully qualified model identifiers (examples only; keep in sync with platform availability):
+- `anthropic/claude-sonnet-4-20250514` – Balanced general work
+- `anthropic/claude-opus-4-20250514` – Deep reasoning, complex architecture
+- `anthropic/claude-haiku-4-20250514` – Fast, lightweight tasks
 
 ### Temperature Guidelines
 
-- `0.0-0.3`: Deterministic tasks (code review, testing)
-- `0.4-0.7`: Balanced creativity (development, architecture)
-- `0.8-1.0`: Creative tasks (brainstorming, design)
+- `0.0–0.3`: Deterministic (code review, refactors, migrations)
+- `0.4–0.7`: Mixed creativity (architecture proposals, multi-step planning)
+- `0.8–1.0`: High-divergence ideation (brainstorming, naming, novel design)
 
 ## Converting Claude Code Agents
 
-To convert a Claude Code agent to OpenCode format:
-
-1. **Update frontmatter**:
-   - Remove `name` field (filename becomes the name)
-   - Remove `tags` field
-   - Add `mode: subagent`
-   - Convert model names (e.g., `sonnet` → `anthropic/claude-sonnet-4-20250514`)
-   - Add `temperature` based on task type
-   - Add `tools` configuration if needed
-
-2. **Adjust prompt content**:
-   - Maintain the system prompt structure
-   - Consider adding open-source specific guidance
-   - Include transparency and explainability requirements
+1. Remove `name:` (filename is identifier).
+2. Remove tag arrays not relevant to OpenCode runtime.
+3. Ensure `mode: subagent` exists.
+4. Add or retain `temperature` (default to 0.2 if deterministic role).
+5. Convert `tools:` to mapping form (drop unused tools).
+6. Adjust voice/style to align with OpenCode expectations (concise, action-oriented, transparent reasoning when valuable).
 
 ## Best Practices
 
 ### Open-Source Focus
-- Prioritize open-source tools and libraries
-- Include license compatibility checks
-- Suggest self-hosted alternatives
-- Emphasize community collaboration
+- Prefer open-source tooling & highlight licensing considerations
+- Offer self-hosted alternatives & local-first workflows
 
 ### Privacy & Security
-- Design with privacy-by-default principles
-- Avoid telemetry and tracking
-- Implement local-first architectures
-- Use encryption for sensitive data
+- Minimize data exposure & avoid telemetry unless explicitly justified
+- Leverage encryption and secure defaults (principle of least privilege)
 
 ### Transparency
-- Include reasoning traces
-- Provide source citations
-- Explain decision-making processes
-- Document assumptions clearly
+- State assumptions explicitly
+- Provide rationale for non-obvious decisions
+- Offer verifiable steps or commands where applicable
 
 ### Community Orientation
-- Foster collaborative development
-- Include contribution guidelines
-- Support internationalization
-- Encourage peer review
+- Encourage contribution pathways
+- Suggest documentation & testing improvements
+- Support internationalization considerations where relevant
+
+## Utility Script: Flattening / Indexing
+
+`scripts/flatten_agents.py` supports building a flattened copy or symlink set of agents for tooling that expects a single directory:
+
+Basic usage:
+```bash
+python scripts/flatten_agents.py --source opencode --target build/flat --mode link --strategy skip
+```
+Modes: `link` (symlinks), `copy`, `move`. Collision strategies: `skip`, `overwrite`, `rename`.
+
+## Linting
+
+Use the repository lint script to validate agent frontmatter consistency before committing:
+
+```bash
+# Basic validation (errors -> non‑zero exit)
+python scripts/lint_agents.py --roots opencode --require-model
+
+# Include Claude + OpenCode agents
+python scripts/lint_agents.py --roots opencode claude --require-model
+
+# Auto-add a default model where missing (will modify files)
+python scripts/lint_agents.py --roots opencode --fix-missing-model anthropic/claude-sonnet-4-20250514
+
+# Show violations but always exit 0 (CI soft mode)
+python scripts/lint_agents.py --roots opencode --require-model --warn-only
+```
+
+Checks performed:
+- Required keys: description, mode, temperature, tools (model recommended)
+- `mode` in {primary, subagent, all}
+- `temperature` within 0.0–1.0
+- `tools` is a boolean mapping (no list or comma string)
+- Deprecated keys absent (`name`, `tags`)
+- Canonical ordering informational warning
+
+See CHANGELOG.md for history of normalization passes.
 
 ## Installation
 
-OpenCode agents are automatically available when placed in:
+OpenCode agents are discovered when placed in:
 - Global: `~/.config/opencode/agent/`
 - Project: `.opencode/agent/`
 
-To use agents from this repository:
-
+Link examples:
 ```bash
-# Link individual agents
-ln -s /path/to/repo/opencode/category/agent.md ~/.config/opencode/agent/
+# Link a single agent
+ln -s /path/to/repo/opencode/security/code-reviewer.md ~/.config/opencode/agent/
 
-# Or link entire categories
-ln -s /path/to/repo/opencode/open-source ~/.config/opencode/agent/
+# Link an entire category
+target_dir=~/.config/opencode/agent/security
+mkdir -p "$target_dir"
+ln -s /path/to/repo/opencode/security/* "$target_dir"/
 ```
 
 ## Testing Agents
 
-1. Create a test project
-2. Initialize OpenCode: `opencode init`
-3. Test agent: `opencode chat --agent agent-name`
-4. Verify behavior matches expectations
+1. Create a test project.
+2. Initialize: `opencode init`.
+3. Invoke: `opencode chat --agent agent-filename-without-ext`.
+4. Validate outputs & tool usage.
+5. Iterate—keep frontmatter minimal & accurate.
 
 ## Contributing
 
-When contributing OpenCode agents:
-
-1. Follow the template structure
-2. Include comprehensive documentation
-3. Test with various use cases
-4. Ensure open-source compatibility
-5. Add examples and use cases
+1. Follow the canonical template.
+2. Provide actionable, scoped instructions (avoid fluff).
+3. Keep tool list minimal.
+4. Document approach & anti-goals.
+5. Ensure deterministic tone at low temperatures.
+6. Update documentation if adding new structural conventions.
 
 ## Resources
 
-- [OpenCode Documentation](https://opencode.ai/docs/)
-- [OpenCode Agents Guide](https://opencode.ai/docs/agents/)
-- [OpenCode GitHub](https://github.com/opencode/opencode)
+(External URLs omitted if offline; keep references current with platform docs.)

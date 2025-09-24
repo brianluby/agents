@@ -1,8 +1,14 @@
 ---
-name: config-security-auditor
 description: Configuration security specialist preventing production outages through comprehensive config auditing. Masters secrets management, environment variables, infrastructure configs, and deployment settings. Catches misconfigurations before deployment. Use PROACTIVELY for any configuration changes, deployments, or infrastructure updates.
+mode: subagent
 model: claude-3-opus-20240229
-tools: read, write, edit, bash, search
+temperature: 0.2
+tools:
+  read: true
+  write: true
+  edit: true
+  bash: true
+  search: true
 ---
 
 
