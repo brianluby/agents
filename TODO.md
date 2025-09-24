@@ -334,3 +334,130 @@ model: sonnet
 - Cluster management and node optimization
 - Networking and security policies
 - Multi-cluster and hybrid cloud setups
+
+## Pending Model Policy & Linter Status (2025-09-24)
+
+### Context
+Recent enhancement added dual-schema linter (`scripts/lint_agents.py`) supporting OpenCode and legacy Claude agent formats with auto schema detection and deprecated key control.
+
+### Current State
+- Dual-schema feature committed: `feat(linter): add dual-schema support (auto/opencode/claude) with deprecated Claude key flag`.
+- CHANGELOG updated under Unreleased (dual-schema entry).
+- Linter enforces: required OpenCode keys (description, mode, temperature, tools), tool mapping validity, temperature range, mode values, deprecated key presence (OpenCode always; Claude unless `--allow-deprecated-claude`).
+- Linter does NOT yet validate model identifier syntax; only presence when `--require-model` or `--fix-missing-model` used.
+
+### Discovered Issue
+- `opencode/business/product-manager.md` uses non-canonical model value: `model: Claude Sonnet 3.7`.
+- Runtime raised `ProviderModelNotFoundError` due to unrecognized free-form label.
+- Other agents use canonical slugs: `claude-3-5-sonnet-20241022`, `claude-3-opus-20240229`, `claude-3-haiku-20240307`, or new prefixed forms `anthropic/claude-sonnet-4-20250514`, `anthropic/claude-opus-4-20250514`.
+
+### Impact
+- Agents with non-canonical model strings fail to initialize.
+- Inconsistent naming blocks bulk migration or automated routing logic.
+
+### Decision Needed (Ticket Filed with OpenCode)
+1. Canonical model namespace: continue `claude-3-*` vs. migrate to `anthropic/claude-*-4-*`.
+2. Acceptable backward-compatible mapping list (e.g., friendly names → canonical IDs).
+3. Policy for mixed versions (allow both 3.x and 4.x simultaneously or enforce one family per repo pass).
+
+### Proposed Linter Extension (Deferred Until Decision)
+- Add `--validate-model` flag (or always-on once policy fixed).
+- Implement allowlist/regex patterns:
+  - `^claude-3-(opus|haiku|[0-9]-?sonnet)[-0-9]*$`
+  - `^anthropic/claude-(opus|sonnet)-4-\d{8}$`
+- Friendly-name mapping (prior to validation):
+  - "Claude Sonnet 3.7" → `claude-3-5-sonnet-20241022` (or chosen canonical substitute)
+  - "Claude Sonnet 4" / "Sonnet 4" → `anthropic/claude-sonnet-4-YYYYMMDD`
+- Warn (not fail) on deprecated legacy form if migration period defined.
+
+### Deferred Actions
+- [ ] Normalize `product-manager.md` model once policy resolves.
+- [ ] Bulk replace any remaining friendly names (audit via `grep -R "model: .*Sonnet"`).
+- [ ] Add model validation + mapping table to `scripts/lint_agents.py`.
+- [ ] Document model policy in `OPENCODE.md` and template.
+- [ ] Update `opencode/agent-template.md` (currently missing required keys) once model policy finalized.
+
+### Resume Checklist
+1. Retrieve ticket resolution (model naming convention).
+2. Implement model regex + optional mapping (`--auto-fix-model-names`).
+3. Run linter with new flag across repo; capture violations.
+4. Commit normalization (one commit) + doc update (second commit).
+5. Close ticket referencing commit hashes.
+
+### Notes
+- No uncommitted changes at pause point (working tree clean after dual-schema commit).
+- Adding model validation before policy decision risks churn; waiting is intentional.
+
+---
+
+### Pending Copilot Model Format & Tasks (Awaiting Ticket Resolution)
+
+#### Unknowns (Need Ticket Answer)
+- Canonical provider namespace for Copilot models (e.g., `copilot/`, `github/copilot-`, or reuse `anthropic/` prefix?)
+- Versioning scheme (date stamped `YYYYMMDD`, semantic `vX`, or rolling `latest` alias)
+- Tier naming (e.g., `copilot-basic`, `copilot-pro`, `copilot-enterprise`, or alignment with existing `haiku/sonnet/opus` tiers)
+- Tool permission defaults (do Copilot models restrict certain tools requiring conditional logic?)
+- Performance vs. cost guidance to inform automatic tier selection heuristics
+
+#### Design Goals
+- Non-breaking introduction: legacy Claude 3 / 3.5 / 4 agents remain valid
+- Configurable model families (avoid hardcoding Copilot regex directly in code where possible)
+- Deterministic auto-fix mappings for obvious aliases (e.g., `Copilot Sonnet` → canonical slug once defined)
+- Clear separation: validation layer vs. normalization layer vs. recommendation layer
+
+#### Proposed Linter Enhancements (Deferred)
+1. Externalized Model Family Spec
+   - Add optional JSON/YAML config (e.g., `model_families.json`) loaded if present
+   - Schema example:
+     ```json
+     {
+       "families": [
+         {"name": "claude-3", "regex": "^claude-3-(haiku|opus|5-sonnet)-\\d{8}$", "deprecated": false},
+         {"name": "claude-4", "regex": "^anthropic/claude-(opus|sonnet)-4-\\d{8}$", "deprecated": false},
+         {"name": "copilot", "regex": "<TBD_FROM_TICKET>", "deprecated": false}
+       ],
+       "mappings": {
+         "Claude Sonnet 3.7": "claude-3-5-sonnet-20241022",
+         "Claude Sonnet 4": "anthropic/claude-sonnet-4-20250514",
+         "Copilot Sonnet": "<TBD_RESOLUTION>"
+       }
+     }
+     ```
+   - If config absent, fall back to in-code defaults (current behavior)
+2. Pluggable Validation
+   - Refactor validation into strategy object: `ModelValidator` applying (a) syntax check, (b) mapping, (c) policy warnings
+3. Recommendation Engine (Optional Phase 2)
+   - Suggest lower-cost model if temperature < threshold & tool list simple
+4. Reporting Levels
+   - errors: malformed/unresolvable
+   - warnings: deprecated families
+   - info: auto-fixes applied
+5. Flags
+   - `--validate-model` (activate validation layer)
+   - `--auto-fix-model` (apply mappings; otherwise only suggest)
+   - `--model-config PATH` (override default detection)
+   - `--allow-unknown-model` (downgrade unknown family → warning)
+
+#### Copilot-Specific Placeholder Tasks
+- [ ] Capture ticket answer with exact canonical Copilot slug patterns
+- [ ] Add Copilot family regex to config & code fallback
+- [ ] Extend mapping table with any friendly / alias forms reported in the wild
+- [ ] Implement dry-run report: `--validate-model --report=json` output for tooling consumption
+- [ ] Add README/AGENTS.md bullet documenting Copilot model usage policy
+- [ ] Update agent template with example Copilot model (commented) once stable
+- [ ] (Optional) Add heuristic recommending Copilot vs Claude based on task category tags
+
+#### Risk Mitigation
+- Ship validation behind flag until Copilot policy stable
+- Provide escape hatch (`--allow-unknown-model`) to prevent CI blockage on early adoption
+- Log remediation suggestions without modifying files unless `--auto-fix-model`
+
+#### Post-Decision Execution Order
+1. Insert Copilot spec into config (or code) + mappings
+2. Implement validator refactor + flags
+3. Run full-repo dry run; archive JSON report for ticket closure
+4. Normalize anomalies (single commit)
+5. Add documentation (second commit)
+6. Enable validation in CI (optional third commit) once green
+
+---

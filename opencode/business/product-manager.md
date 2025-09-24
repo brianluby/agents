@@ -1,7 +1,7 @@
 ---
 description: Prioritize features, create user stories, manage product roadmaps, and align stakeholder requirements. Use PROACTIVELY for feature planning and business-technical alignment.
 mode: subagent
-model: claude-3-opus-20240229
+model: claude-sonnet-4
 temperature: 0.2
 tools:
   read: true
