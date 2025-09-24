@@ -6,6 +6,7 @@ All notable changes to the agent repository will be documented here.
 ### Added
 - Linter: `--check-order` flag auto-fixes canonical key ordering.
 - Linter: Enforces allowed tools set (`read`, `write`, `edit`, `bash`, `search`, `glob`, `grep`, `diff`, `format`, `webfetch`).
+- Linter: Dual-schema support (`--schema auto|opencode|claude`) with per-file auto-detection and Claude deprecated key allowance via `--allow-deprecated-claude`.
 - Pre-commit hook example: `.githooks/agent-lint` (ordering auto-fix + validation before commit).
 - Phase 1 tool primitives under `scripts/tools/`:
   - `glob_tool.py` (glob file listing)

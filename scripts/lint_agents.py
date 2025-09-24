@@ -1,26 +1,22 @@
 #!/usr/bin/env python3
 """Agent linter for OpenCode and Claude agent markdown files.
 
-Validates:
-- Presence & order of frontmatter keys (description, mode, model, temperature, tools)
-- Tools mapping shape (must be mapping, boolean values)
-- Allowed tools set enforcement
-- No deprecated keys (name, tags)
-- Temperature value range 0.0-1.0
-- Mode in allowed set {primary, subagent, all}
-- Optional: ensures model present when requested via flag / insertion
-- Optional: auto-fixes canonical ordering with --check-order
-- Reports summary + non-zero exit on violations (unless --warn-only)
+Multi-schema validation modes:
+- OpenCode schema (strict): requires description, mode, temperature, tools mapping; model optionally enforced via --require-model / --fix-missing-model
+- Claude schema (legacy-friendly): allows name, optional description/model/tools; no mode/temperature requirement by default
+- Auto detection (default): chooses schema per file path by presence of top-level directory segment 'opencode' or 'claude'. Unclassified paths are skipped.
 
-Usage:
-  python scripts/lint_agents.py --roots opencode claude
-  python scripts/lint_agents.py --fix-missing-model anthropic/claude-sonnet-4-20250514
-  python scripts/lint_agents.py --check-order --roots opencode
+Key validations (applied per schema rules):
+- Canonical key ordering (OpenCode only) with optional auto-fix (--check-order)
+- Tools mapping shape (dict of booleans) and allowed tool names (both schemas if tools present; required only for OpenCode)
+- Temperature presence/range (required for OpenCode; if present in Claude validated but not required)
+- Mode value in {primary, subagent, all} (required for OpenCode only)
+- Deprecated keys (name, tags): always violations for OpenCode; for Claude only if --allow-deprecated-claude NOT supplied
 
 Exit codes:
   0 = clean
-  1 = violations
-  2 = internal error
+  1 = violations (unless --warn-only)
+  2 = internal / usage error (e.g. no files classified under --schema auto)
 """
 from __future__ import annotations
 
@@ -33,9 +29,10 @@ from typing import List, Dict, Any, Optional, Tuple
 import yaml
 
 ALLOWED_MODES = {"primary", "subagent", "all"}
-CANONICAL_ORDER = ["description", "mode", "model", "temperature", "tools"]
-DEPRECATED_KEYS = {"name", "tags"}
+OPENCODE_CANONICAL_ORDER = ["description", "mode", "model", "temperature", "tools"]
+CLAUDE_CANONICAL_ORDER = ["name", "description", "model", "tools"]
 ALLOWED_TOOLS = {"read", "write", "edit", "bash", "search", "glob", "grep", "diff", "format", "webfetch"}
+DEPRECATED_KEYS = {"name", "tags"}
 
 
 @dataclass
@@ -45,7 +42,39 @@ class Violation:
     fixable: bool = False
 
     def format(self) -> str:
-        return f"{self.path}: {self.message}{' (fixable)' if self.fixable else ''}" 
+        return f"{self.path}: {self.message}{' (fixable)' if self.fixable else ''}"  # noqa: E501
+
+
+@dataclass(frozen=True)
+class AgentSchema:
+    name: str
+    canonical_order: List[str]
+    enforce_order: bool
+    require_keys: List[str]
+    require_tools: bool
+    require_temperature: bool
+    require_mode: bool
+
+
+OPENCODE_SCHEMA = AgentSchema(
+    name="opencode",
+    canonical_order=OPENCODE_CANONICAL_ORDER,
+    enforce_order=True,
+    require_keys=["description", "mode"],
+    require_tools=True,
+    require_temperature=True,
+    require_mode=True,
+)
+
+CLAUDE_SCHEMA = AgentSchema(
+    name="claude",
+    canonical_order=CLAUDE_CANONICAL_ORDER,
+    enforce_order=False,  # allow original ordering; can still warn if requested in future
+    require_keys=[],
+    require_tools=False,
+    require_temperature=False,
+    require_mode=False,
+)
 
 
 def parse_frontmatter(text: str) -> Tuple[Optional[Dict[str, Any]], str]:
@@ -65,15 +94,15 @@ def parse_frontmatter(text: str) -> Tuple[Optional[Dict[str, Any]], str]:
         return None, text
 
 
-def check_order(data: Dict[str, Any]) -> bool:
-    filtered = [k for k in CANONICAL_ORDER if k in data]
-    current = [k for k in data.keys() if k in CANONICAL_ORDER]
+def check_order(data: Dict[str, Any], canonical_order: List[str]) -> bool:
+    filtered = [k for k in canonical_order if k in data]
+    current = [k for k in data.keys() if k in canonical_order]
     return current == filtered
 
 
-def rebuild_order(fm: Dict[str, Any]) -> Dict[str, Any]:
+def rebuild_order(fm: Dict[str, Any], canonical_order: List[str]) -> Dict[str, Any]:
     new_dict: Dict[str, Any] = {}
-    for key in CANONICAL_ORDER:
+    for key in canonical_order:
         if key in fm:
             new_dict[key] = fm[key]
     for k in fm:
@@ -82,7 +111,26 @@ def rebuild_order(fm: Dict[str, Any]) -> Dict[str, Any]:
     return new_dict
 
 
-def lint_file(path: Path, require_model: bool, fix_model: Optional[str], fix_order: bool) -> Tuple[List[Violation], bool]:
+def classify_schema(path: Path, forced: str) -> Optional[AgentSchema]:
+    if forced == 'opencode':
+        return OPENCODE_SCHEMA
+    if forced == 'claude':
+        return CLAUDE_SCHEMA
+    # auto mode
+    parts = set(path.parts)
+    if 'opencode' in parts:
+        return OPENCODE_SCHEMA
+    if 'claude' in parts:
+        return CLAUDE_SCHEMA
+    return None
+
+
+def lint_file(path: Path,
+              schema: AgentSchema,
+              require_model: bool,
+              fix_model: Optional[str],
+              fix_order: bool,
+              allow_deprecated_claude: bool) -> Tuple[List[Violation], bool]:
     text = path.read_text(encoding='utf-8')
     fm, body = parse_frontmatter(text)
     violations: List[Violation] = []
@@ -92,21 +140,34 @@ def lint_file(path: Path, require_model: bool, fix_model: Optional[str], fix_ord
         violations.append(Violation(path, 'Missing or invalid YAML frontmatter'))
         return violations, changed
 
-    # Deprecated keys
-    for k in fm.keys():
-        if k in DEPRECATED_KEYS:
-            violations.append(Violation(path, f'Deprecated key present: {k}'))
+    # Deprecated keys handling
+    if schema.name == 'opencode':
+        for k in fm.keys():
+            if k in DEPRECATED_KEYS:
+                violations.append(Violation(path, f'Deprecated key in OpenCode schema: {k}'))
+    else:  # claude
+        if not allow_deprecated_claude:
+            for k in fm.keys():
+                if k in DEPRECATED_KEYS:
+                    violations.append(Violation(path, f'Deprecated key (enable with --allow-deprecated-claude): {k}'))
 
-    # Required keys
-    for key in ("description", "mode"):
+    # Required keys (schema-specific)
+    for key in schema.require_keys:
         if key not in fm:
             violations.append(Violation(path, f'Missing required key: {key}'))
 
-    # Mode validity
-    if 'mode' in fm and fm['mode'] not in ALLOWED_MODES:
-        violations.append(Violation(path, f"Invalid mode: {fm['mode']!r}"))
+    # Mode validity (only if required by schema or present)
+    if schema.require_mode and 'mode' in fm:
+        if fm['mode'] not in ALLOWED_MODES:
+            violations.append(Violation(path, f"Invalid mode: {fm['mode']!r}"))
+    elif schema.require_mode and 'mode' not in fm:
+        violations.append(Violation(path, 'Missing mode'))
+    else:
+        # If mode present in Claude but invalid, give soft warning
+        if 'mode' in fm and fm['mode'] not in ALLOWED_MODES:
+            violations.append(Violation(path, f"Mode key ignored for Claude schema (invalid value {fm['mode']!r})"))
 
-    # Model handling
+    # Model handling (flag or fix across schemas if requested)
     if require_model and 'model' not in fm:
         if fix_model:
             fm['model'] = fix_model
@@ -115,45 +176,78 @@ def lint_file(path: Path, require_model: bool, fix_model: Optional[str], fix_ord
             violations.append(Violation(path, 'Missing model'))
 
     # Temperature
-    if 'temperature' in fm:
-        try:
-            t = float(fm['temperature'])
-            if not 0.0 <= t <= 1.0:
-                violations.append(Violation(path, f'Out-of-range temperature: {t}'))
-        except Exception:
-            violations.append(Violation(path, f'Non-numeric temperature: {fm['temperature']!r}'))
-    else:
-        violations.append(Violation(path, 'Missing temperature'))
-
-    # Tools mapping & validation
-    if 'tools' in fm:
-        tools = fm['tools']
-        if not isinstance(tools, dict):
-            violations.append(Violation(path, 'tools must be a mapping'))
+    if schema.require_temperature:
+        if 'temperature' in fm:
+            try:
+                t = float(fm['temperature'])
+                if not 0.0 <= t <= 1.0:
+                    violations.append(Violation(path, f'Out-of-range temperature: {t}'))
+            except Exception:
+                violations.append(Violation(path, f'Non-numeric temperature: {fm['temperature']!r}'))
         else:
-            bad_values = {k: v for k, v in tools.items() if not isinstance(v, bool)}
-            if bad_values:
-                violations.append(Violation(path, f'Non-boolean tool values: {bad_values}'))
-            unknown = [k for k in tools.keys() if k not in ALLOWED_TOOLS]
-            if unknown:
-                violations.append(Violation(path, f'Unknown tools: {unknown}'))
+            violations.append(Violation(path, 'Missing temperature'))
     else:
-        violations.append(Violation(path, 'Missing tools mapping'))
+        # Validate if present for Claude but do not require
+        if 'temperature' in fm:
+            try:
+                t = float(fm['temperature'])
+                if not 0.0 <= t <= 1.0:
+                    violations.append(Violation(path, f'Out-of-range temperature (Claude non-required): {t}'))
+            except Exception:
+                violations.append(Violation(path, f'Non-numeric temperature (Claude non-required): {fm['temperature']!r}'))
 
-    # Order check
-    is_canonical = check_order(fm)
-    if not is_canonical:
-        if fix_order:
-            fm = rebuild_order(fm)
-            changed = True
+    # Tools
+    if schema.require_tools:
+        if 'tools' not in fm:
+            violations.append(Violation(path, 'Missing tools mapping'))
         else:
-            violations.append(Violation(path, 'Non-canonical key order (informational)'))
+            tools = fm['tools']
+            if not isinstance(tools, dict):
+                violations.append(Violation(path, 'tools must be a mapping'))
+            else:
+                bad_values = {k: v for k, v in tools.items() if not isinstance(v, bool)}
+                if bad_values:
+                    violations.append(Violation(path, f'Non-boolean tool values: {bad_values}'))
+                unknown = [k for k in tools.keys() if k not in ALLOWED_TOOLS]
+                if unknown:
+                    violations.append(Violation(path, f'Unknown tools: {unknown}'))
+    else:
+        if 'tools' in fm:
+            tools = fm['tools']
+            if not isinstance(tools, dict):
+                violations.append(Violation(path, 'tools must be a mapping (if present)'))
+            else:
+                bad_values = {k: v for k, v in tools.items() if not isinstance(v, bool)}
+                if bad_values:
+                    violations.append(Violation(path, f'Non-boolean tool values: {bad_values}'))
+                unknown = [k for k in tools.keys() if k not in ALLOWED_TOOLS]
+                if unknown:
+                    violations.append(Violation(path, f'Unknown tools: {unknown}'))
+
+    # Order check (OpenCode only)
+    if schema.enforce_order:
+        is_canonical = check_order(fm, schema.canonical_order)
+        if not is_canonical:
+            if fix_order:
+                fm = rebuild_order(fm, schema.canonical_order)
+                changed = True
+            else:
+                violations.append(Violation(path, 'Non-canonical key order (informational)', fixable=True))
+    else:
+        is_canonical = True  # not enforced
 
     # Rewrite if changed
     if changed:
-        out_dict = rebuild_order(fm) if (fix_order and not is_canonical) else rebuild_order(fm)
+        # Ensure order applied if enforce_order or fix_order requested
+        if schema.enforce_order:
+            out_dict = rebuild_order(fm, schema.canonical_order)
+        else:
+            out_dict = fm
         dumped = yaml.safe_dump(out_dict, sort_keys=False).strip() + '\n'
-        path.write_text(f"---\n{dumped}---{body}", encoding='utf-8')
+        # Preserve body after frontmatter delimiter
+        body_str = body if body.startswith('\n') else body  # body already includes leading newline from split
+        path.write_text(f"---\n{dumped}---{body_str}", encoding='utf-8')
+
     return violations, changed
 
 
@@ -166,9 +260,11 @@ def main(argv: List[str]) -> int:
     parser.add_argument('--roots', nargs='+', default=['opencode'], help='Root directories to scan')
     parser.add_argument('--require-model', action='store_true', help='Flag missing model as violation')
     parser.add_argument('--fix-missing-model', metavar='MODEL', help='Insert model into agents missing it')
-    parser.add_argument('--check-order', action='store_true', help='Auto-fix non-canonical key order')
+    parser.add_argument('--check-order', action='store_true', help='Auto-fix non-canonical key order (OpenCode)')
     parser.add_argument('--warn-only', action='store_true', help='Exit 0 even if violations found')
     parser.add_argument('--list-tools', action='store_true', help='Print allowed tools and exit')
+    parser.add_argument('--schema', choices=['auto', 'opencode', 'claude'], default='auto', help='Schema selection strategy')
+    parser.add_argument('--allow-deprecated-claude', action='store_true', help='Allow name/tags in Claude schema without warning')
     args = parser.parse_args(argv)
 
     if args.list_tools:
@@ -180,6 +276,9 @@ def main(argv: List[str]) -> int:
     violations: List[Violation] = []
     changed_files = 0
     scanned_files = 0
+    schema_counts = {"opencode": 0, "claude": 0}
+
+    classified_any = False
 
     for root in args.roots:
         root_path = Path(root)
@@ -187,16 +286,32 @@ def main(argv: List[str]) -> int:
             print(f"WARN: Root not found: {root}")
             continue
         for path in scan(root_path):
+            schema = classify_schema(path, args.schema)
+            if schema is None:
+                # Skip unclassified in auto; if explicit schema set we still skip because unmatched
+                continue
+            classified_any = True
             scanned_files += 1
+            schema_counts[schema.name] += 1
             file_violations, changed = lint_file(
                 path,
+                schema,
                 args.require_model or bool(args.fix_missing_model),
                 args.fix_missing_model,
                 args.check_order,
+                args.allow_deprecated_claude,
             )
             violations.extend(file_violations)
             if changed:
                 changed_files += 1
+
+    if not classified_any:
+        if args.schema == 'auto':
+            print('No agent files classified under auto schema detection. Provide --schema opencode or --schema claude explicitly.', file=sys.stderr)
+            return 2
+        else:
+            print('No files matched provided roots/schema.', file=sys.stderr)
+            return 2
 
     if violations:
         print('\nViolations:')
@@ -207,6 +322,7 @@ def main(argv: List[str]) -> int:
     print(f"  Files scanned: {scanned_files}")
     print(f"  Violations: {len(violations)}")
     print(f"  Files modified (auto-fix): {changed_files}")
+    print(f"  Schema counts: opencode={schema_counts['opencode']} claude={schema_counts['claude']}")
 
     if violations and not args.warn_only:
         return 1
