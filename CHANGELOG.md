@@ -5,8 +5,16 @@ All notable changes to the agent repository will be documented here.
 ## [Unreleased]
 ### Added
 - Linter: `--check-order` flag auto-fixes canonical key ordering.
-- Linter: Enforces allowed tools set (`read`, `write`, `edit`, `bash`, `search`).
+- Linter: Enforces allowed tools set (`read`, `write`, `edit`, `bash`, `search`, `glob`, `grep`, `diff`, `format`, `webfetch`).
 - Pre-commit hook example: `.githooks/agent-lint` (ordering auto-fix + validation before commit).
+- Phase 1 tool primitives under `scripts/tools/`:
+  - `glob_tool.py` (glob file listing)
+  - `grep_tool.py` (regex line search with match cap)
+  - `diff_tool.py` (unified diff, byte-limited)
+  - `format_tool.py` (minimal whitespace normalizer)
+  - `webfetch_tool.py` (opt-in HTTP(S) fetch, text-only)
+- Linter: `--list-tools` flag to print allowed tool names.
+
 
 ### Changed
 - Linter summary now reports actual file count instead of placeholder.

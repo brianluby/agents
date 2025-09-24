@@ -13,7 +13,7 @@ Authoritative quick-reference for agentic coding tools operating in this repo.
 5. Types & Style: Prefer type hints in new/modified Python functions. Pure functions first; side effects (file writes) isolated. Use early returns; avoid deep nesting.
 6. Naming: snake_case for files/functions, UPPER_SNAKE_CASE for constants, PascalCase only for classes. Markdown agent filenames remain lowercase hyphen-separated.
 7. Error Handling: Validate file existence; print concise error then `sys.exit(1)` for unrecoverable CLI issues. Do not swallow exceptions silently; narrow except blocks.
-8. YAML Frontmatter: Maintain existing keys; when adding keep ordering: name, description, model, tools (Claude) OR description, mode, model, temperature, tools (OpenCode). Remove deprecated `name` when migrating to OpenCode; use `scripts/lint_agents.py` to verify (`--check-order` auto-fixes ordering; allowed tools enforced: read, write, edit, bash, search).
+8. YAML Frontmatter: Maintain existing keys; when adding keep ordering: name, description, model, tools (Claude) OR description, mode, model, temperature, tools (OpenCode). Remove deprecated `name` when migrating to OpenCode; use `scripts/lint_agents.py` to verify (`--check-order` auto-fixes ordering; allowed tools enforced: read, write, edit, bash, search, glob, grep, diff, format, webfetch).
 9. Imports: Standard library first, then third-party (pyyaml, click, rich), then local scripts; no wildcard imports; sort logically (optional alphabetical within group).
 10. Logging/Output: Use `print()` or rich console (already imported) for user-facing CLI; never add verbose debug unless user requests.
 11. Performance: Scripts run on small sets; prefer clarity over micro-optimizations. Avoid unnecessary rereads of files.

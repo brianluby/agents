@@ -397,6 +397,23 @@ ln -s ../../.githooks/agent-lint .git/hooks/pre-commit
 ```
 See CHANGELOG.md for normalization history.
 
+### Tooling Utilities (Phase 1)
+
+The repo ships lightweight tool scripts (under `scripts/tools/`) used by some OpenCode agents or local workflows:
+
+- `glob_tool.py` – Glob file listing (no content read)
+- `grep_tool.py` – Regex line search with match cap (default 500)
+- `diff_tool.py` – Unified diff (file↔file / dir↔dir) with byte limit
+- `format_tool.py` – Minimal trailing-space + final newline normalizer (dry-run by default)
+- `webfetch_tool.py` – Disabled-by-default HTTP(S) fetch (text-only, 100 KB cap, requires `--allow` or `OPENCODE_ALLOW_WEB=1`)
+
+List allowed agent tool names:
+```bash
+python scripts/lint_agents.py --list-tools
+```
+Enable only what an agent strictly needs; omit `webfetch` unless remote context is essential.
+
+
 ## Usage
 
 ### Automatic Delegation

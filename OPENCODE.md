@@ -199,6 +199,29 @@ Checks performed:
 
 See CHANGELOG.md for history of normalization passes.
 
+## Tooling Primitives (Phase 1 Additions)
+
+The linter now recognizes an expanded safe tool set for OpenCode agents. Add only what a role actually needs:
+
+- glob: Structured file listing via glob patterns; no content reads.
+- grep: Regex line search with match caps to prevent flooding.
+- diff: Unified diff generation for file or directory comparisons (byte-limited).
+- format: Minimal whitespace normalizer (trailing space strip + final newline) – placeholder until richer formatters.
+- webfetch: Disabled-by-default HTTP(S) fetch (text-only) for selective remote context acquisition.
+
+Safety notes:
+- webfetch requires explicit opt-in (env `OPENCODE_ALLOW_WEB=1` or per-call flag) and caps response size (default 100 KB) and rejects binary types.
+- diff truncates directory diffs once byte limit reached, signaling `truncated: true`.
+- grep truncates after a configurable max match count (default 500) to maintain deterministic output size.
+- format only mutates files when invoked with an explicit apply flag; dry-run is default.
+
+Author guidance:
+1. Prefer read/search over bulk glob+grep combos unless necessary; keep tool surface minimal.
+2. Do not enable webfetch for agents whose mandate is purely local code reasoning.
+3. Combine diff + grep for higher-signal change analysis tasks (diff narrows changed files; grep refines within them).
+4. Keep formatting concerns orthogonal—`format` is intentionally conservative; avoid relying on it for semantic style.
+
+
 ## Installation
 
 OpenCode agents are discovered when placed in:
