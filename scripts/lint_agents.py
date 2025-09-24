@@ -35,7 +35,7 @@ import yaml
 ALLOWED_MODES = {"primary", "subagent", "all"}
 CANONICAL_ORDER = ["description", "mode", "model", "temperature", "tools"]
 DEPRECATED_KEYS = {"name", "tags"}
-ALLOWED_TOOLS = {"read", "write", "edit", "bash", "search"}
+ALLOWED_TOOLS = {"read", "write", "edit", "bash", "search", "glob", "grep", "diff", "format", "webfetch"}
 
 
 @dataclass
@@ -168,7 +168,14 @@ def main(argv: List[str]) -> int:
     parser.add_argument('--fix-missing-model', metavar='MODEL', help='Insert model into agents missing it')
     parser.add_argument('--check-order', action='store_true', help='Auto-fix non-canonical key order')
     parser.add_argument('--warn-only', action='store_true', help='Exit 0 even if violations found')
+    parser.add_argument('--list-tools', action='store_true', help='Print allowed tools and exit')
     args = parser.parse_args(argv)
+
+    if args.list_tools:
+        print('Allowed tools:')
+        for t in sorted(ALLOWED_TOOLS):
+            print(' -', t)
+        return 0
 
     violations: List[Violation] = []
     changed_files = 0
