@@ -1,0 +1,4 @@
+# Python dependencies for agent management tools
+pyyaml>=6.0
+click>=8.0
+rich>=14.0

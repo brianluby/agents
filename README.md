@@ -291,24 +291,52 @@ Agents are assigned to specific Claude models based on task complexity and compu
 
 ## OpenCode Agents
 
-OpenCode agents are designed with open-source principles, privacy-first architectures, and transparency. They follow OpenCode's specific format and configuration options.
+OpenCode agents are designed with open-source principles, privacy-first architectures, and transparency. All 94 Claude Code agents have been converted to OpenCode format and are available in the `opencode/` directory.
 
-### Available OpenCode Agents
+### Complete Agent Collection (97 total)
 
-#### Open Source & Community
-- **[license-compliance-guardian](opencode/open-source/license-compliance-guardian.md)** - License compatibility analysis and compliance automation
-- **oss-contribution-mentor** - Guide open-source contributions and PR best practices
-- **fork-sync-orchestrator** - Manage complex fork relationships and upstream syncing
+#### Development (18 agents)
+All language-specific programming agents from Claude Code, including:
+- Python, JavaScript, TypeScript, Go, Rust, Java, C++, C, C#
+- Ruby, PHP, Elixir, Scala, Flutter, iOS development
+- Django, FastAPI, and mobile development
 
-#### Privacy & Security
-- **[privacy-first-architect](opencode/privacy-security/privacy-first-architect.md)** - Design privacy-preserving systems and GDPR compliance
-- **zero-knowledge-engineer** - Implement zero-knowledge proofs and privacy protocols
-- **encryption-specialist** - End-to-end encryption and secure communication
+#### Infrastructure (15 agents)
+Comprehensive DevOps and cloud infrastructure agents:
+- Cloud architects, Kubernetes engineers, Terraform specialists
+- Database administrators, network engineers, deployment engineers
+- Platform engineers, observability specialists
+- **[self-hosting-specialist](opencode/infrastructure/self-hosting-specialist.md)** - Convert to self-hosted alternatives
 
-#### Self-Hosting & Infrastructure
-- **[self-hosting-specialist](opencode/infrastructure/self-hosting-specialist.md)** - Convert cloud services to self-hosted alternatives
-- **edge-computing-optimizer** - Optimize for resource-constrained environments
-- **container-orchestrator** - Docker and Kubernetes for on-premise deployments
+#### Security (16 agents)
+Advanced security and quality assurance agents:
+- Security auditors, code reviewers, debuggers
+- Frontend/backend/mobile security specialists
+- Performance engineers, test automators
+- **[privacy-first-architect](opencode/privacy-security/privacy-first-architect.md)** - Privacy-preserving systems
+
+#### Specialized Domains (14 agents)
+Domain-specific technical expertise:
+- AI/ML engineers, blockchain developers, GraphQL architects
+- Finance specialists (quant analysts, risk managers)
+- Payment integration, developer experience optimization
+
+#### Business & Marketing (17 agents)
+Business operations and growth agents:
+- Product managers, business analysts, HR professionals
+- Content marketers, sales automators, customer support
+- SEO specialists (10 dedicated SEO agents)
+
+#### Documentation & Analysis (13 agents)
+Technical writing and research agents:
+- Documentation architects, API documenters, technical writers
+- Data scientists, SQL specialists, search specialists
+- UI/UX designers, tutorial engineers
+
+#### Additional Categories
+- **Gaming** (2 agents): Unity developer, Minecraft Bukkit specialist
+- **Tools** (2 agents): Visual validators, diagram creators
+- **Open Source** (1 agent): **[license-compliance-guardian](opencode/open-source/license-compliance-guardian.md)**
 
 ### OpenCode Features
 
@@ -322,13 +350,13 @@ OpenCode agents are designed with open-source principles, privacy-first architec
 
 ### For Claude Code
 
-```bash
-cd ~/.claude
-git clone https://github.com/brianluby/agents.git
-# Claude Code agents are in the claude/ directory
-```
+**Note**: Claude Code expects agents directly in `~/.claude/agents/`, not in subdirectories. See [INSTALLATION.md](INSTALLATION.md) for detailed setup options.
 
-The Claude Code agents will be automatically available once placed in the `~/.claude/agents/` directory.
+Quick setup with symlink:
+```bash
+git clone https://github.com/brianluby/agents.git ~/agents-repo
+ln -s ~/agents-repo/claude ~/.claude/agents
+```
 
 ### For OpenCode
 

@@ -18,6 +18,11 @@ Thumbs.db
 
 # Application specific files
 venv
+.venv
 node_modules
 .sass-cache
 .claude
+
+# Python
+__pycache__/
+*.pyo

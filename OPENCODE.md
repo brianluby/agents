@@ -38,18 +38,22 @@ prompt: custom_prompt.md  # Reference to custom prompt file
 
 ## Agent Categories
 
-### OpenCode-Specific Categories
+### OpenCode Directory Structure
 
-The `opencode/` directory contains specialized categories focused on open-source principles:
+The `opencode/` directory now contains all 97 agents organized into:
 
-- **open-source/**: License compliance, OSS contributions, community management
-- **privacy-security/**: Privacy-first architectures, self-hosted solutions
-- **decentralized/**: P2P, federated systems, blockchain architectures
-- **open-hardware/**: Edge computing, IoT, embedded systems
-- **community/**: Community health, translations, documentation
-- **infrastructure/**: DevOps, cloud, and deployment specialists
-- **languages/**: Programming language experts
-- **quality-testing/**: Code review, testing, and quality assurance
+- **analysis/** (5 agents): Data scientists, SQL experts, search specialists
+- **business/** (7 agents): Product managers, HR, business analysts
+- **development/** (18 agents): All programming language specialists
+- **documentation/** (6 agents): Technical writers, API documenters
+- **gaming/** (2 agents): Unity developer, Minecraft plugin expert
+- **infrastructure/** (15 agents): Cloud architects, DevOps, self-hosting
+- **marketing/** (10 agents): SEO specialists, content marketers
+- **open-source/** (1 agent): License compliance guardian
+- **privacy-security/** (1 agent): Privacy-first architect
+- **security/** (16 agents): Security auditors, code reviewers
+- **specialized/** (14 agents): AI/ML, blockchain, finance experts
+- **tools/** (2 agents): Mermaid diagrams, UI validators
 
 ### Shared Agents
 
