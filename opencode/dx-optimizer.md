@@ -1,7 +1,7 @@
 ---
 description: Developer Experience specialist. Improves tooling, setup, and workflows. Use PROACTIVELY when setting up new projects, after team feedback, or when development friction is noticed.
 mode: subagent
-model: claude-3-5-sonnet-20241022
+model: openai/gpt-5.1
 temperature: 0.2
 tools:
   read: true

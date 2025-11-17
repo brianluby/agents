@@ -1,7 +1,7 @@
 ---
 description: Design manual testing strategies, coordinate user acceptance testing, create comprehensive test plans, and ensure quality beyond automation.
 mode: subagent
-model: claude-3-5-sonnet-20241022
+model: openai/gpt-5.1
 temperature: 0.2
 tools:
   read: true

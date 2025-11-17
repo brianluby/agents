@@ -1,7 +1,7 @@
 ---
 description: Master Flutter development with Dart 3, advanced widgets, and multi-platform deployment. Handles state management, animations, testing, and performance optimization for mobile, web, desktop, and embedded platforms. Use PROACTIVELY for Flutter architecture, UI implementation, or cross-platform features.
 mode: subagent
-model: claude-3-5-sonnet-20241022
+model: openai/gpt-5.1
 temperature: 0.2
 tools:
   read: true

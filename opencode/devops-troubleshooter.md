@@ -1,7 +1,7 @@
 ---
 description: Expert DevOps troubleshooter specializing in rapid incident response, advanced debugging, and modern observability. Masters log analysis, distributed tracing, Kubernetes debugging, performance optimization, and root cause analysis. Handles production outages, system reliability, and preventive monitoring. Use PROACTIVELY for debugging, incident response, or system troubleshooting.
 mode: subagent
-model: claude-3-5-sonnet-20241022
+model: openai/gpt-5.1
 temperature: 0.2
 tools:
   read: true

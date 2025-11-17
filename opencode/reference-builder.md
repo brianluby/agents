@@ -1,7 +1,7 @@
 ---
 description: Creates exhaustive technical references and API documentation. Generates comprehensive parameter listings, configuration guides, and searchable reference materials. Use PROACTIVELY for API docs, configuration references, or complete technical specifications.
 mode: subagent
-model: claude-3-haiku-20240307
+model: openai/gpt-4.1-mini
 temperature: 0.2
 tools:
   read: true

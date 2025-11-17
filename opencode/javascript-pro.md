@@ -1,7 +1,7 @@
 ---
 description: Master modern JavaScript with ES6+, async patterns, and Node.js APIs. Handles promises, event loops, and browser/Node compatibility. Use PROACTIVELY for JavaScript optimization, async debugging, or complex JS patterns.
 mode: subagent
-model: claude-3-5-sonnet-20241022
+model: openai/gpt-5.1
 temperature: 0.2
 tools:
   read: true

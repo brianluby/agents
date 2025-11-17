@@ -1,7 +1,7 @@
 ---
 description: Design RESTful APIs, microservice boundaries, and database schemas. Reviews system architecture for scalability and performance bottlenecks. Use PROACTIVELY when creating new backend services or APIs.
 mode: subagent
-model: claude-3-opus-20240229
+model: openai/gpt-5.1
 temperature: 0.2
 tools:
   read: true

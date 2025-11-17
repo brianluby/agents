@@ -1,7 +1,7 @@
 ---
 description: Supply chain security expert preventing dependency attacks and software supply chain compromises. Masters SBOM generation, dependency scanning, package verification, and vendor risk assessment. Implements SLSA framework and software provenance. Use PROACTIVELY for dependency updates, third-party integrations, or vendor assessments.
 mode: subagent
-model: claude-3-5-sonnet-20241022
+model: openai/gpt-5.1
 temperature: 0.2
 tools:
   read: true

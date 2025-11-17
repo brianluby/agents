@@ -18,7 +18,7 @@ The recommended ordering of keys (omit any not used):
 ---
 description: Concise explanation of the agent's purpose
 mode: subagent                 # primary | subagent | all
-model: REPLACE_WITH_MODEL      # e.g. anthropic/claude-sonnet-4-20250514
+model: REPLACE_WITH_MODEL      # e.g. openai/gpt-5.1
 temperature: 0.2               # 0.0-1.0 (determinism → creativity)
 tools:                         # granular tool permissions (boolean map)
   read: true
@@ -122,9 +122,9 @@ Key authoring steps:
 ### Model Selection
 
 OpenCode uses fully qualified model identifiers (examples only; keep in sync with platform availability):
-- `anthropic/claude-sonnet-4-20250514` – Balanced general work
-- `anthropic/claude-opus-4-20250514` – Deep reasoning, complex architecture
-- `anthropic/claude-haiku-4-20250514` – Fast, lightweight tasks
+- `openai/gpt-5.1` – General-purpose coding and planning
+- `openai/gpt-4.1-mini` – Fast, lightweight iterations and diagnostics
+- `openai/gpt-4o-mini` – Cost-efficient support tasks and triage
 
 ### Temperature Guidelines
 
@@ -183,7 +183,7 @@ python scripts/lint_agents.py --roots opencode --require-model
 python scripts/lint_agents.py --roots opencode claude --require-model
 
 # Auto-add a default model where missing (will modify files)
-python scripts/lint_agents.py --roots opencode --fix-missing-model anthropic/claude-sonnet-4-20250514
+python3 scripts/lint_agents.py --roots opencode --fix-missing-model openai/gpt-5.1
 
 # Show violations but always exit 0 (CI soft mode)
 python scripts/lint_agents.py --roots opencode --require-model --warn-only

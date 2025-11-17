@@ -1,7 +1,7 @@
 ---
 description: Define SLIs/SLOs, implement reliability practices, manage error budgets, and balance feature velocity with stability. Use PROACTIVELY for system reliability.
 mode: subagent
-model: claude-3-opus-20240229
+model: openai/gpt-5.1
 temperature: 0.2
 tools:
   read: true

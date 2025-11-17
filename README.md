@@ -381,7 +381,7 @@ python scripts/lint_agents.py --roots opencode claude --require-model
 ```
 Auto-fill missing model values:
 ```bash
-python scripts/lint_agents.py --roots opencode --fix-missing-model anthropic/claude-sonnet-4-20250514
+python3 scripts/lint_agents.py --roots opencode --fix-missing-model openai/gpt-5.1
 ```
 Auto-fix canonical key ordering & validate allowed tools:
 ```bash

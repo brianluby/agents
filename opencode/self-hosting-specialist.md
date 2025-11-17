@@ -1,7 +1,7 @@
 ---
 description: Converts cloud architectures to self-hosted solutions, optimizes for resource-constrained environments, and implements backup strategies. Use for on-premise deployments, data sovereignty, and cloud independence.
 mode: subagent
-model: anthropic/claude-sonnet-4-20250514
+model: openai/gpt-5.1
 temperature: 0.4
 tools:
   write: true

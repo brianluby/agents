@@ -1,7 +1,7 @@
 ---
 description: Analyzes multiple provided pages to identify keyword overlap and potential cannibalization issues. Suggests differentiation strategies. Use PROACTIVELY when reviewing similar content.
 mode: subagent
-model: claude-3-haiku-20240307
+model: openai/gpt-4.1-mini
 temperature: 0.2
 tools:
   read: true

@@ -1,7 +1,7 @@
 ---
 description: Draft privacy policies, terms of service, disclaimers, and legal notices. Creates GDPR-compliant texts, cookie policies, and data processing agreements. Use PROACTIVELY for legal documentation, compliance texts, or regulatory requirements.
 mode: subagent
-model: claude-3-opus-20240229
+model: openai/gpt-5.1
 temperature: 0.2
 tools:
   read: true

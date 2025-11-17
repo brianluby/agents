@@ -1,7 +1,7 @@
 ---
 description: Expert in secure mobile coding practices specializing in input validation, WebView security, and mobile-specific security patterns. Use PROACTIVELY for mobile security implementations or mobile security code reviews.
 mode: subagent
-model: claude-3-opus-20240229
+model: openai/gpt-5.1
 temperature: 0.2
 tools:
   read: true

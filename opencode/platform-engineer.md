@@ -1,7 +1,7 @@
 ---
 description: Build internal developer platforms, configure service mesh, create developer tooling, and standardize deployment patterns. Use for developer experience optimization.
 mode: subagent
-model: claude-3-5-sonnet-20241022
+model: openai/gpt-5.1
 temperature: 0.2
 tools:
   read: true

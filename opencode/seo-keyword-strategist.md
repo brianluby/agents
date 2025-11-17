@@ -1,7 +1,7 @@
 ---
 description: Analyzes keyword usage in provided content, calculates density, suggests semantic variations and LSI keywords based on the topic. Prevents over-optimization. Use PROACTIVELY for content optimization.
 mode: subagent
-model: claude-3-haiku-20240307
+model: openai/gpt-4.1-mini
 temperature: 0.2
 tools:
   read: true

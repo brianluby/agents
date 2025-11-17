@@ -28,9 +28,8 @@ if [ "$FORMAT" = "opencode" ]; then
     fm==1 {
         # Convert model names
         if ($1 == "model:") {
-            if ($2 == "haiku") print "model: anthropic/claude-haiku-4-20250514";
-            else if ($2 == "sonnet") print "model: anthropic/claude-sonnet-4-20250514";
-            else if ($2 == "opus") print "model: anthropic/claude-opus-4-20250514";
+            if ($2 == "haiku") print "model: openai/gpt-4.1-mini";
+            else if ($2 == "sonnet" || $2 == "opus") print "model: openai/gpt-5.1";
             else print $0;
         }
         # Skip name and tags fields
@@ -69,9 +68,8 @@ elif [ "$FORMAT" = "claude" ]; then
     fm==1 {
         # Convert model names
         if ($1 == "model:") {
-            if (index($0, "haiku") > 0) print "model: haiku";
-            else if (index($0, "sonnet") > 0) print "model: sonnet";
-            else if (index($0, "opus") > 0) print "model: opus";
+            if (index($0, "gpt-4.1-mini") > 0 || index($0, "haiku") > 0) print "model: haiku";
+            else if (index($0, "gpt-5.1") > 0 || index($0, "sonnet") > 0 || index($0, "opus") > 0) print "model: sonnet";
             else print $0;
         }
         # Skip OpenCode specific fields

@@ -1,7 +1,7 @@
 ---
 description: Prioritize features, create user stories, manage product roadmaps, and align stakeholder requirements. Use PROACTIVELY for feature planning and business-technical alignment.
 mode: subagent
-model: claude-sonnet-4
+model: openai/gpt-5.1
 temperature: 0.2
 tools:
   read: true

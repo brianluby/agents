@@ -15,8 +15,8 @@ import yaml
 
 def parse_frontmatter(content):
     """Extract YAML frontmatter from markdown content."""
-    if content.startswith('---\n'):
-        parts = content.split('---\n', 2)
+    if content.startswith("---\n"):
+        parts = content.split("---\n", 2)
         if len(parts) >= 3:
             return yaml.safe_load(parts[1]), parts[2]
     return {}, content
@@ -25,35 +25,38 @@ def parse_frontmatter(content):
 def claude_to_opencode(frontmatter, content):
     """Convert Claude Code agent to OpenCode format."""
     opencode_fm = {
-        'description': frontmatter.get('description', ''),
-        'mode': 'subagent'
+        "description": frontmatter.get("description", ""),
+        "mode": "subagent",
     }
 
     # Map model names
     model_map = {
-        'haiku': 'anthropic/claude-haiku-4-20250514',
-        'sonnet': 'anthropic/claude-sonnet-4-20250514',
-        'opus': 'anthropic/claude-opus-4-20250514'
+        "openai/gpt-4.1-mini": "haiku",
+        "openai/gpt-5.1": "sonnet",
+        "anthropic/claude-haiku-4-20250514": "haiku",
+        "anthropic/claude-sonnet-4-20250514": "sonnet",
+        "anthropic/claude-opus-4-20250514": "opus",
     }
 
-    if 'model' in frontmatter:
-        opencode_fm['model'] = model_map.get(frontmatter['model'], frontmatter['model'])
+    if "model" in frontmatter:
+        opencode_fm["model"] = model_map.get(frontmatter["model"], frontmatter["model"])
 
     # Set temperature based on agent type
-    if 'review' in frontmatter.get('name', '').lower() or 'audit' in frontmatter.get('name', '').lower():
-        opencode_fm['temperature'] = 0.2
-    elif 'architect' in frontmatter.get('name', '').lower() or 'design' in frontmatter.get('name', '').lower():
-        opencode_fm['temperature'] = 0.5
+    if (
+        "review" in frontmatter.get("name", "").lower()
+        or "audit" in frontmatter.get("name", "").lower()
+    ):
+        opencode_fm["temperature"] = 0.2
+    elif (
+        "architect" in frontmatter.get("name", "").lower()
+        or "design" in frontmatter.get("name", "").lower()
+    ):
+        opencode_fm["temperature"] = 0.5
     else:
-        opencode_fm['temperature'] = 0.7
+        opencode_fm["temperature"] = 0.7
 
     # Add default tools
-    opencode_fm['tools'] = {
-        'write': True,
-        'edit': True,
-        'bash': True,
-        'read': True
-    }
+    opencode_fm["tools"] = {"write": True, "edit": True, "bash": True, "read": True}
 
     return opencode_fm, content
 
@@ -61,35 +64,31 @@ def claude_to_opencode(frontmatter, content):
 def opencode_to_claude(frontmatter, content, filename):
     """Convert OpenCode agent to Claude Code format."""
     claude_fm = {
-        'name': Path(filename).stem,
-        'description': frontmatter.get('description', '')
+        "name": Path(filename).stem,
+        "description": frontmatter.get("description", ""),
     }
 
     # Map model names
-    model_map = {
-        'anthropic/claude-haiku-4-20250514': 'haiku',
-        'anthropic/claude-sonnet-4-20250514': 'sonnet',
-        'anthropic/claude-opus-4-20250514': 'opus'
-    }
+    model_map = {"openai/gpt-4.1-mini": "haiku", "openai/gpt-5.1": "sonnet"}
 
-    if 'model' in frontmatter:
+    if "model" in frontmatter:
         for long_name, short_name in model_map.items():
-            if long_name in frontmatter['model']:
-                claude_fm['model'] = short_name
+            if long_name in frontmatter["model"]:
+                claude_fm["model"] = short_name
                 break
 
     # Extract tags from description
     tags = []
-    description_lower = frontmatter.get('description', '').lower()
+    description_lower = frontmatter.get("description", "").lower()
     tag_keywords = {
-        'devops': ['devops', 'deployment', 'ci/cd'],
-        'security': ['security', 'audit', 'compliance'],
-        'testing': ['test', 'qa', 'quality'],
-        'architecture': ['architect', 'design', 'system'],
-        'database': ['database', 'sql', 'query'],
-        'frontend': ['frontend', 'ui', 'react'],
-        'backend': ['backend', 'api', 'server'],
-        'ml': ['ml', 'machine learning', 'ai']
+        "devops": ["devops", "deployment", "ci/cd"],
+        "security": ["security", "audit", "compliance"],
+        "testing": ["test", "qa", "quality"],
+        "architecture": ["architect", "design", "system"],
+        "database": ["database", "sql", "query"],
+        "frontend": ["frontend", "ui", "react"],
+        "backend": ["backend", "api", "server"],
+        "ml": ["ml", "machine learning", "ai"],
     }
 
     for tag, keywords in tag_keywords.items():
@@ -97,7 +96,7 @@ def opencode_to_claude(frontmatter, content, filename):
             tags.append(tag)
 
     if tags:
-        claude_fm['tags'] = tags
+        claude_fm["tags"] = tags
 
     return claude_fm, content
 
@@ -108,11 +107,12 @@ def format_frontmatter(data):
 
 
 def main():
-    parser = argparse.ArgumentParser(description='Convert agents between formats')
-    parser.add_argument('input_file', help='Input agent file')
-    parser.add_argument('output_file', help='Output agent file')
-    parser.add_argument('--to', required=True, choices=['claude', 'opencode'],
-                        help='Target format')
+    parser = argparse.ArgumentParser(description="Convert agents between formats")
+    parser.add_argument("input_file", help="Input agent file")
+    parser.add_argument("output_file", help="Output agent file")
+    parser.add_argument(
+        "--to", required=True, choices=["claude", "opencode"], help="Target format"
+    )
 
     args = parser.parse_args()
 
@@ -126,10 +126,12 @@ def main():
     frontmatter, body = parse_frontmatter(content)
 
     # Convert based on target format
-    if args.to == 'opencode':
+    if args.to == "opencode":
         new_frontmatter, new_body = claude_to_opencode(frontmatter, body)
     else:
-        new_frontmatter, new_body = opencode_to_claude(frontmatter, body, args.output_file)
+        new_frontmatter, new_body = opencode_to_claude(
+            frontmatter, body, args.output_file
+        )
 
     # Write output file
     output_path = Path(args.output_file)
@@ -141,5 +143,5 @@ def main():
     print(f"Converted {args.input_file} to {args.output_file}")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
