@@ -1,7 +1,7 @@
 ---
 description: Analyzes and optimizes content structure including header hierarchy, suggests schema markup, and internal linking opportunities. Creates search-friendly content organization. Use PROACTIVELY for content structuring.
 mode: subagent
-model: openai/gpt-4.1-mini
+model: zai/glm-4.6
 temperature: 0.2
 tools:
   read: true

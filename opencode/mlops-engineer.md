@@ -1,7 +1,7 @@
 ---
 description: Build comprehensive ML pipelines, experiment tracking, and model registries with MLflow, Kubeflow, and modern MLOps tools. Implements automated training, deployment, and monitoring across cloud platforms. Use PROACTIVELY for ML infrastructure, experiment management, or pipeline automation.
 mode: subagent
-model: openai/gpt-5.1
+model: zai/glm-4.6
 temperature: 0.2
 tools:
   read: true

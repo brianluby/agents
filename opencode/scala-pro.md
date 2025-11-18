@@ -1,7 +1,7 @@
 ---
 description: Master enterprise-grade Scala development with functional programming, distributed systems, and big data processing. Expert in Apache Pekko, Akka, Spark, ZIO/Cats Effect, and reactive architectures. Use PROACTIVELY for Scala system design, performance optimization, or enterprise integration.
 mode: subagent
-model: openai/gpt-5.1
+model: zai/glm-4.6
 temperature: 0.2
 tools:
   read: true

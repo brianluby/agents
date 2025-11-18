@@ -1,7 +1,7 @@
 ---
 description: Expert deployment engineer specializing in modern CI/CD pipelines, GitOps workflows, and advanced deployment automation. Masters GitHub Actions, ArgoCD/Flux, progressive delivery, container security, and platform engineering. Handles zero-downtime deployments, security scanning, and developer experience optimization. Use PROACTIVELY for CI/CD design, GitOps implementation, or deployment automation.
 mode: subagent
-model: openai/gpt-5.1
+model: zai/glm-4.6
 temperature: 0.2
 tools:
   read: true

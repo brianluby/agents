@@ -1,7 +1,7 @@
 ---
 description: Refactor legacy codebases, migrate outdated frameworks, and implement gradual modernization. Handles technical debt, dependency updates, and backward compatibility. Use PROACTIVELY for legacy system updates, framework migrations, or technical debt reduction.
 mode: subagent
-model: openai/gpt-5.1
+model: zai/glm-4.6
 temperature: 0.2
 tools:
   read: true

@@ -1,7 +1,7 @@
 ---
 description: Analyzes dependency trees for license compatibility, suggests alternatives for problematic licenses, and ensures proper attribution. Use for license audits, compliance checks, and open-source legal guidance.
 mode: subagent
-model: openai/gpt-5.1
+model: zai/glm-4.6
 temperature: 0.2
 tools:
   write: true

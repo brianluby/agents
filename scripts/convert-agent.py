@@ -31,8 +31,7 @@ def claude_to_opencode(frontmatter, content):
 
     # Map model names
     model_map = {
-        "openai/gpt-4.1-mini": "haiku",
-        "openai/gpt-5.1": "sonnet",
+        "zai/glm-4.6": "sonnet",
         "anthropic/claude-haiku-4-20250514": "haiku",
         "anthropic/claude-sonnet-4-20250514": "sonnet",
         "anthropic/claude-opus-4-20250514": "opus",
@@ -69,7 +68,7 @@ def opencode_to_claude(frontmatter, content, filename):
     }
 
     # Map model names
-    model_map = {"openai/gpt-4.1-mini": "haiku", "openai/gpt-5.1": "sonnet"}
+    model_map = {"zai/glm-4.6": "sonnet"}
 
     if "model" in frontmatter:
         for long_name, short_name in model_map.items():

@@ -1,7 +1,7 @@
 ---
 description: Configuration security specialist preventing production outages through comprehensive config auditing. Masters secrets management, environment variables, infrastructure configs, and deployment settings. Catches misconfigurations before deployment. Use PROACTIVELY for any configuration changes, deployments, or infrastructure updates.
 mode: subagent
-model: openai/gpt-5.1
+model: zai/glm-4.6
 temperature: 0.2
 tools:
   read: true

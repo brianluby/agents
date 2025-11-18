@@ -28,8 +28,8 @@ if [ "$FORMAT" = "opencode" ]; then
     fm==1 {
         # Convert model names
         if ($1 == "model:") {
-            if ($2 == "haiku") print "model: openai/gpt-4.1-mini";
-            else if ($2 == "sonnet" || $2 == "opus") print "model: openai/gpt-5.1";
+            if ($2 == "haiku") print "model: zai/glm-4.6";
+            else if ($2 == "sonnet" || $2 == "opus") print "model: zai/glm-4.6";
             else print $0;
         }
         # Skip name and tags fields

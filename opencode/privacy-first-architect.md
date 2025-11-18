@@ -1,7 +1,7 @@
 ---
 description: Designs systems with data minimization, implements local-first architectures, and creates privacy-preserving analytics. Use for GDPR compliance, privacy-by-design implementations, and secure data handling.
 mode: subagent
-model: openai/gpt-5.1
+model: zai/glm-4.6
 temperature: 0.5
 tools:
   write: true

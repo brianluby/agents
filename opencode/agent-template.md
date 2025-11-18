@@ -9,7 +9,7 @@
 # Example (uncomment + adapt):
 # description: High-signal backend performance optimizer focusing on Python services
 # mode: subagent
-# model: openai/gpt-5.1
+# model: zai/glm-4.6
 # temperature: 0.2
 # tools:
 #   read: true

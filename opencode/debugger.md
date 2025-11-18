@@ -1,7 +1,7 @@
 ---
 description: Elite debugging specialist mastering root cause analysis, distributed tracing, and complex production issues. Expert in memory leaks, race conditions, performance degradation, and test failures. Uses modern debugging tools and systematic approaches. Use PROACTIVELY for any errors, test failures, performance issues, or unexpected behavior.
 mode: subagent
-model: openai/gpt-5.1
+model: zai/glm-4.6
 temperature: 0.2
 tools:
   read: true

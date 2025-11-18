@@ -18,7 +18,7 @@ The recommended ordering of keys (omit any not used):
 ---
 description: Concise explanation of the agent's purpose
 mode: subagent                 # primary | subagent | all
-model: REPLACE_WITH_MODEL      # e.g. openai/gpt-5.1
+model: REPLACE_WITH_MODEL      # e.g. zai/glm-4.6
 temperature: 0.2               # 0.0-1.0 (determinism → creativity)
 tools:                         # granular tool permissions (boolean map)
   read: true
@@ -122,9 +122,7 @@ Key authoring steps:
 ### Model Selection
 
 OpenCode uses fully qualified model identifiers (examples only; keep in sync with platform availability):
-- `openai/gpt-5.1` – General-purpose coding and planning
-- `openai/gpt-4.1-mini` – Fast, lightweight iterations and diagnostics
-- `openai/gpt-4o-mini` – Cost-efficient support tasks and triage
+- `zai/glm-4.6` – General-purpose coding and planning
 
 ### Temperature Guidelines
 
@@ -183,7 +181,7 @@ python scripts/lint_agents.py --roots opencode --require-model
 python scripts/lint_agents.py --roots opencode claude --require-model
 
 # Auto-add a default model where missing (will modify files)
-python3 scripts/lint_agents.py --roots opencode --fix-missing-model openai/gpt-5.1
+python3 scripts/lint_agents.py --roots opencode --fix-missing-model zai/glm-4.6
 
 # Show violations but always exit 0 (CI soft mode)
 python scripts/lint_agents.py --roots opencode --require-model --warn-only

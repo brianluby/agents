@@ -1,7 +1,7 @@
 ---
 description: Formats content to be eligible for featured snippets and SERP features. Creates snippet-optimized content blocks based on best practices. Use PROACTIVELY for question-based content.
 mode: subagent
-model: openai/gpt-4.1-mini
+model: zai/glm-4.6
 temperature: 0.2
 tools:
   read: true

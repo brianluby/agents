@@ -1,7 +1,7 @@
 ---
 description: Builds Terraform scanner mapping Terraform configs to IR services, datastores, endpoints, trust boundaries with fixtures/tests.
 mode: subagent
-model: openai/gpt-5.1
+model: zai/glm-4.6
 temperature: 0.2
 tools:
   read: true

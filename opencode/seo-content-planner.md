@@ -1,7 +1,7 @@
 ---
 description: Creates comprehensive content outlines and topic clusters for SEO. Plans content calendars and identifies topic gaps. Use PROACTIVELY for content strategy and planning.
 mode: subagent
-model: openai/gpt-4.1-mini
+model: zai/glm-4.6
 temperature: 0.2
 tools:
   read: true

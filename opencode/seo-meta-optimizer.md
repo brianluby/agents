@@ -1,7 +1,7 @@
 ---
 description: Creates optimized meta titles, descriptions, and URL suggestions based on character limits and best practices. Generates compelling, keyword-rich metadata. Use PROACTIVELY for new content.
 mode: subagent
-model: openai/gpt-4.1-mini
+model: zai/glm-4.6
 temperature: 0.2
 tools:
   read: true

@@ -381,7 +381,7 @@ python scripts/lint_agents.py --roots opencode claude --require-model
 ```
 Auto-fill missing model values:
 ```bash
-python3 scripts/lint_agents.py --roots opencode --fix-missing-model openai/gpt-5.1
+python3 scripts/lint_agents.py --roots opencode --fix-missing-model zai/glm-4.6
 ```
 Auto-fix canonical key ordering & validate allowed tools:
 ```bash

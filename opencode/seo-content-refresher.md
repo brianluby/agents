@@ -1,7 +1,7 @@
 ---
 description: Identifies outdated elements in provided content and suggests updates to maintain freshness. Finds statistics, dates, and examples that need updating. Use PROACTIVELY for older content.
 mode: subagent
-model: openai/gpt-4.1-mini
+model: zai/glm-4.6
 temperature: 0.2
 tools:
   read: true

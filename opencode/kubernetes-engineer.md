@@ -1,7 +1,7 @@
 ---
 description: Advanced Kubernetes configurations, operator development, cluster management, and container orchestration patterns. Use for complex K8s implementations.
 mode: subagent
-model: openai/gpt-5.1
+model: zai/glm-4.6
 temperature: 0.2
 tools:
   read: true

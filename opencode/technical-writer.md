@@ -1,7 +1,7 @@
 ---
 description: Creates comprehensive technical documentation including user guides, API documentation, system architecture docs, and tutorials. Transforms complex technical concepts into clear, actionable content. Use PROACTIVELY for documentation tasks, content strategy, or improving existing docs.
 mode: subagent
-model: openai/gpt-4.1-mini
+model: zai/glm-4.6
 temperature: 0.2
 tools:
   read: true

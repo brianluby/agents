@@ -16,7 +16,7 @@ Create an `opencode.json` configuration file in your project root:
       "description": "Python development with advanced features and optimization",
       "temperature": 0.7,
       "prompt": ".opencode/prompts/python-pro.md",
-      "model": "openai/gpt-5.1",
+      "model": "zai/glm-4.6",
       "tools": {
         "read_file": true,
         "write_file": true,
@@ -32,7 +32,7 @@ Create an `opencode.json` configuration file in your project root:
       "description": "Security auditing and vulnerability detection",
       "temperature": 0.3,
       "prompt": ".opencode/prompts/security-auditor.md",
-      "model": "openai/gpt-4.1-mini",
+      "model": "zai/glm-4.6",
       "tools": {
         "read_file": true,
         "search": true,
@@ -128,8 +128,8 @@ def create_opencode_config():
             config["agents"][agent_name] = {
                 "description": metadata.get('description', ''),
                 "prompt": prompt_file,
-                "model": metadata.get('model', 'openai/gpt-5.1'),
-                "temperature": 0.3 if metadata.get('model') == 'openai/gpt-4.1-mini' else 0.2
+                "model": metadata.get('model', 'zai/glm-4.6'),
+                "temperature": 0.3 if metadata.get('model') == 'zai/glm-4.6' else 0.2
             }
 
             # Configure tools based on agent type
@@ -167,7 +167,7 @@ mkdir -p .opencode/agents .opencode/prompts
   "description": "Expert Python development with optimization",
   "temperature": 0.7,
   "prompt": "../prompts/python.md",
-  "model": "openai/gpt-5.1",
+  "model": "zai/glm-4.6",
   "tools": {
     "read_file": true,
     "write_file": true,
@@ -183,7 +183,7 @@ mkdir -p .opencode/agents .opencode/prompts
   "description": "Security vulnerability detection and fixes",
   "temperature": 0.3,
   "prompt": "../prompts/security.md",
-  "model": "openai/gpt-4.1-mini",
+  "model": "zai/glm-4.6",
   "tools": {
     "read_file": true,
     "search": true,
@@ -259,7 +259,7 @@ EOF
 | `description` | **Required** - Brief description of agent's purpose | "Python expert for optimization" |
 | `temperature` | LLM creativity (0.0-1.0) | 0.7 |
 | `prompt` | Path to system prompt file | ".opencode/prompts/python.md" |
-| `model` | Override default model | "openai/gpt-5.1" |
+| `model` | Override default model | "zai/glm-4.6" |
 | `tools` | Enable/disable specific tools | `{"read_file": true}` |
 | `permissions` | Control agent actions | `{"file_write": "ask"}` |
 
