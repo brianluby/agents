@@ -1,9 +1,21 @@
 {
   "$schema": "https://opencode.ai/config.json",
   "provider": {
-    "zai": {
+    "anthropic": {
       "models": {
-        "glm-4.6": {
+        "claude-3-5-haiku-20241022": {
+          "options": {
+            "reasoningEffort": "low",
+            "textVerbosity": "normal"
+          }
+        },
+        "claude-sonnet-4-20250514": {
+          "options": {
+            "reasoningEffort": "medium",
+            "textVerbosity": "normal"
+          }
+        },
+        "claude-opus-4-5-20251101": {
           "options": {
             "reasoningEffort": "high",
             "textVerbosity": "normal"
@@ -12,6 +24,6 @@
       }
     }
   },
-  "model": "zai/glm-4.6",
-  "small_model": "zai/glm-4.6"
+  "model": "anthropic/claude-sonnet-4-20250514",
+  "small_model": "anthropic/claude-3-5-haiku-20241022"
 }
