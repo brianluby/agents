@@ -1,7 +1,7 @@
 ---
 name: ml-engineer
 description: Build production ML systems with PyTorch 2.x, TensorFlow, and modern ML frameworks. Implements model serving, feature engineering, A/B testing, and monitoring. Use PROACTIVELY for ML model deployment, inference optimization, or production ML infrastructure.
-model: opus
+model: zai-coding-plan/glm-4.7
 tags: [ml, machine-learning, pytorch, tensorflow, model-serving, deployment, ai]
 ---
 

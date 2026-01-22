@@ -1,7 +1,7 @@
 ---
 name: reference-builder
 description: Creates exhaustive technical references and API documentation. Generates comprehensive parameter listings, configuration guides, and searchable reference materials. Use PROACTIVELY for API docs, configuration references, or complete technical specifications.
-model: sonnet
+model: zai-coding-plan/glm-4.6
 tags: [documentation, api-reference, technical-specs, configuration, searchable-docs]
 ---
 

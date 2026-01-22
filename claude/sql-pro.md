@@ -1,7 +1,7 @@
 ---
 name: sql-pro
 description: Master modern SQL with cloud-native databases, OLTP/OLAP optimization, and advanced query techniques. Expert in performance tuning, data modeling, and hybrid analytical systems. Use PROACTIVELY for database optimization or complex analysis.
-model: sonnet
+model: zai-coding-plan/glm-4.6
 tags: [database, sql, optimization, schema-design, queries, performance, analytics, data]
 ---
 

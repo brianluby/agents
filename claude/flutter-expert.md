@@ -1,7 +1,7 @@
 ---
 name: flutter-expert
 description: Master Flutter development with Dart 3, advanced widgets, and multi-platform deployment. Handles state management, animations, testing, and performance optimization for mobile, web, desktop, and embedded platforms. Use PROACTIVELY for Flutter architecture, UI implementation, or cross-platform features.
-model: sonnet
+model: zai-coding-plan/glm-4.6
 tags: [flutter, dart, mobile, cross-platform, widgets, state-management]
 ---
 

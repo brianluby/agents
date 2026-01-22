@@ -1,7 +1,7 @@
 ---
 name: config-security-auditor
 description: Configuration security specialist preventing production outages through comprehensive config auditing. Masters secrets management, environment variables, infrastructure configs, and deployment settings. Catches misconfigurations before deployment. Use PROACTIVELY for any configuration changes, deployments, or infrastructure updates.
-model: opus
+model: zai-coding-plan/glm-4.7
 tags: [security, configuration, infrastructure, secrets, deployment, production, devops]
 ---
 

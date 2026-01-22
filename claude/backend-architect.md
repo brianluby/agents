@@ -1,7 +1,7 @@
 ---
 name: backend-architect
 description: Design RESTful APIs, microservice boundaries, and database schemas. Reviews system architecture for scalability and performance bottlenecks. Use PROACTIVELY when creating new backend services or APIs.
-model: opus
+model: zai-coding-plan/glm-4.7
 tags: [backend, architecture, api, microservices, database, scalability, design]
 ---
 

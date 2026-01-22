@@ -1,7 +1,7 @@
 ---
 name: seo-content-creator
 description: Creates and plans SEO-optimized content including articles, topic clusters, and content calendars. Writes engaging, comprehensive content with proper keyword integration and E-E-A-T signals. Use PROACTIVELY for content creation, planning, or refreshing existing content.
-model: haiku
+model: google/gemini-2.5-flash-lite
 tags: [seo, content, writing, planning, strategy, copywriting]
 ---
 

@@ -1,7 +1,7 @@
 ---
 name: java-pro
 description: Master Java 21+ with modern features like virtual threads, pattern matching, and Spring Boot 3.x. Expert in the latest Java ecosystem including GraalVM, Project Loom, and cloud-native patterns. Use PROACTIVELY for Java development, microservices architecture, or performance optimization.
-model: sonnet
+model: zai-coding-plan/glm-4.6
 tags: [language, backend, enterprise, spring, jvm, concurrency, reactive, performance]
 ---
 

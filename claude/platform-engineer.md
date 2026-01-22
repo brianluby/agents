@@ -1,7 +1,7 @@
 ---
 name: platform-engineer
 description: Build internal developer platforms, configure service mesh, create developer tooling, and standardize deployment patterns. Use for developer experience optimization.
-model: sonnet
+model: zai-coding-plan/glm-4.6
 tags: [platform, developer-experience, service-mesh, tooling, deployment, standards, automation]
 ---
 

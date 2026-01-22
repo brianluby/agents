@@ -1,7 +1,7 @@
 ---
 name: graphql-architect
 description: Master modern GraphQL with federation, performance optimization, and enterprise security. Build scalable schemas, implement advanced caching, and design real-time systems. Use PROACTIVELY for GraphQL architecture or performance optimization.
-model: sonnet
+model: zai-coding-plan/glm-4.6
 tags: [graphql, api, schema, resolvers, federation, subscriptions, performance, queries]
 ---
 

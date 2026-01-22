@@ -1,7 +1,7 @@
 ---
 name: mobile-security-coder
 description: Expert in secure mobile coding practices specializing in input validation, WebView security, and mobile-specific security patterns. Use PROACTIVELY for mobile security implementations or mobile security code reviews.
-model: opus
+model: zai-coding-plan/glm-4.7
 tags: [mobile, security, ios, android, webview, authentication, encryption]
 ---
 

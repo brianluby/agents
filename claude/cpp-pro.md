@@ -1,7 +1,7 @@
 ---
 name: cpp-pro
 description: Write idiomatic C++ code with modern features, RAII, smart pointers, and STL algorithms. Handles templates, move semantics, and performance optimization. Use PROACTIVELY for C++ refactoring, memory safety, or complex C++ patterns.
-model: sonnet
+model: zai-coding-plan/glm-4.6
 tags: [language, systems, performance, templates, memory-management, stl, patterns, optimization]
 ---
 

@@ -1,7 +1,7 @@
 ---
 name: risk-manager
 description: Monitor portfolio risk, R-multiples, and position limits. Creates hedging strategies, calculates expectancy, and implements stop-losses. Use PROACTIVELY for risk assessment, trade tracking, or portfolio protection.
-model: sonnet
+model: zai-coding-plan/glm-4.6
 tags: [finance, risk, portfolio, trading, hedging, var, position-sizing]
 ---
 

@@ -1,7 +1,7 @@
 ---
 name: quant-analyst
 description: Build financial models, backtest trading strategies, and analyze market data. Implements risk metrics, portfolio optimization, and statistical arbitrage. Use PROACTIVELY for quantitative finance, trading algorithms, or risk analysis.
-model: sonnet
+model: zai-coding-plan/glm-4.6
 tags: [finance, trading, quantitative, backtesting, portfolio, risk-metrics, algorithms]
 ---
 

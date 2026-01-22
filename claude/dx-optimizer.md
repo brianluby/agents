@@ -1,7 +1,7 @@
 ---
 name: dx-optimizer
 description: Developer Experience specialist. Improves tooling, setup, and workflows. Use PROACTIVELY when setting up new projects, after team feedback, or when development friction is noticed.
-model: sonnet
+model: zai-coding-plan/glm-4.6
 tags: [dx, tooling, automation, onboarding, workflows, productivity, setup, devtools]
 ---
 

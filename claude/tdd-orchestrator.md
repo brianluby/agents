@@ -1,7 +1,7 @@
 ---
 name: tdd-orchestrator
 description: Master TDD orchestrator specializing in red-green-refactor discipline, multi-agent workflow coordination, and comprehensive test-driven development practices. Enforces TDD best practices across teams with AI-assisted testing and modern frameworks. Use PROACTIVELY for TDD implementation and governance.
-model: opus
+model: zai-coding-plan/glm-4.7
 ---
 
 <purpose>

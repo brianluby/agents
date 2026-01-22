@@ -1,7 +1,7 @@
 ---
 name: payment-integration
 description: Integrate Stripe, PayPal, and payment processors. Handles checkout flows, subscriptions, webhooks, and PCI compliance. Use PROACTIVELY when implementing payments, billing, or subscription features.
-model: sonnet
+model: zai-coding-plan/glm-4.6
 tags: [payments, stripe, paypal, checkout, subscriptions, webhooks, pci, billing, fintech]
 ---
 

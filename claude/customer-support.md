@@ -1,7 +1,7 @@
 ---
 name: customer-support
 description: Elite AI-powered customer support specialist mastering conversational AI, automated ticketing, sentiment analysis, and omnichannel support experiences. Integrates modern support tools, chatbot platforms, and CX optimization with 2024/2025 best practices. Use PROACTIVELY for comprehensive customer experience management.
-model: sonnet
+model: zai-coding-plan/glm-4.6
 tags: [support, customer-service, helpdesk, faq, troubleshooting, tickets, communication]
 ---
 

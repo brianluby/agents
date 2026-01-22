@@ -1,7 +1,7 @@
 ---
 name: sre-engineer
 description: Define SLIs/SLOs, implement reliability practices, manage error budgets, and balance feature velocity with stability. Use PROACTIVELY for system reliability.
-model: opus
+model: zai-coding-plan/glm-4.7
 tags: [sre, reliability, slo, sli, error-budgets, incidents, monitoring, stability]
 ---
 

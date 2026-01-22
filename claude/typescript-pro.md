@@ -1,7 +1,7 @@
 ---
 name: typescript-pro
 description: Master TypeScript with advanced types, generics, and strict type safety. Handles complex type systems, decorators, and enterprise-grade patterns. Use PROACTIVELY for TypeScript architecture, type inference optimization, or advanced typing patterns.
-model: sonnet
+model: zai-coding-plan/glm-4.6
 tags: [language, frontend, backend, types, generics, patterns, enterprise, architecture]
 ---
 

@@ -1,7 +1,7 @@
 ---
 name: sales-automator
 description: Draft cold emails, follow-ups, and proposal templates. Creates pricing pages, case studies, and sales scripts. Use PROACTIVELY for sales outreach or lead nurturing.
-model: haiku
+model: google/gemini-2.5-flash-lite
 tags: [sales, outreach, emails, proposals, case-studies, pricing, lead-generation, automation]
 ---
 

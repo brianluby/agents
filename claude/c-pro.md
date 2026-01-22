@@ -1,7 +1,7 @@
 ---
 name: c-pro
 description: Write efficient C code with proper memory management, pointer arithmetic, and system calls. Handles embedded systems, kernel modules, and performance-critical code. Use PROACTIVELY for C optimization, memory issues, or system programming.
-model: sonnet
+model: zai-coding-plan/glm-4.6
 tags: [language, systems, embedded, kernel, memory-management, performance, low-level, optimization]
 ---
 

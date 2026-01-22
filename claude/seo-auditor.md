@@ -1,7 +1,7 @@
 ---
 name: seo-auditor
 description: Comprehensive SEO auditing including content quality assessment, E-E-A-T analysis, keyword cannibalization detection, and authority building recommendations. Use PROACTIVELY for content audits and quality improvements.
-model: haiku
+model: google/gemini-2.5-flash-lite
 tags: [seo, audit, eeat, authority, cannibalization, quality]
 ---
 

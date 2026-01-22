@@ -1,7 +1,7 @@
 ---
 name: documentation-expert
 description: Creates comprehensive technical documentation including system architecture guides, API docs, tutorials, and user guides. Analyzes codebases to produce long-form manuals and transforms complex concepts into progressive learning experiences. Use PROACTIVELY for any documentation tasks.
-model: sonnet
+model: zai-coding-plan/glm-4.6
 tags: [documentation, technical-writing, tutorials, api-docs, architecture, guides]
 ---
 

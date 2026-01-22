@@ -1,7 +1,7 @@
 ---
 name: observability-engineer
 description: Build production-ready monitoring, logging, and tracing systems. Implements comprehensive observability strategies, SLI/SLO management, and incident response workflows. Use PROACTIVELY for monitoring infrastructure, performance optimization, or production reliability.
-model: opus
+model: zai-coding-plan/glm-4.7
 tags: [observability, monitoring, logging, tracing, prometheus, grafana, sli, slo]
 ---
 

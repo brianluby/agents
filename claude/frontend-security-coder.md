@@ -1,7 +1,7 @@
 ---
 name: frontend-security-coder
 description: Expert in secure frontend coding practices specializing in XSS prevention, output sanitization, and client-side security patterns. Use PROACTIVELY for frontend security implementations or client-side security code reviews.
-model: opus
+model: zai-coding-plan/glm-4.7
 tags: [security, frontend, xss, csp, dom, sanitization, authentication, browser-security]
 ---
 

@@ -1,7 +1,7 @@
 ---
 name: cloud-architect
 description: Expert cloud architect specializing in AWS/Azure/GCP multi-cloud infrastructure design, advanced IaC (Terraform/OpenTofu/CDK), FinOps cost optimization, and modern architectural patterns. Masters serverless, microservices, security, compliance, and disaster recovery. Use PROACTIVELY for cloud architecture, cost optimization, migration planning, or multi-cloud strategies.
-model: opus
+model: zai-coding-plan/glm-4.7
 tags: [cloud, aws, azure, gcp, infrastructure, terraform, serverless, scaling, cost-optimization]
 ---
 

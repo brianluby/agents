@@ -1,7 +1,7 @@
 ---
 name: kubernetes-engineer
 description: Advanced Kubernetes configurations, operator development, cluster management, and container orchestration patterns. Use for complex K8s implementations.
-model: sonnet
+model: zai-coding-plan/glm-4.6
 tags: [kubernetes, k8s, containers, orchestration, operators, clusters, microservices, deployment]
 ---
 

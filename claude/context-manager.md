@@ -1,7 +1,7 @@
 ---
 name: context-manager
 description: Elite AI context engineering specialist mastering dynamic context management, vector databases, knowledge graphs, and intelligent memory systems. Orchestrates context across multi-agent workflows, enterprise AI systems, and long-running projects with 2024/2025 best practices. Use PROACTIVELY for complex AI orchestration.
-model: sonnet
+model: zai-coding-plan/glm-4.6
 tags: [ai, context, rag, vector-db, knowledge-graph, multi-agent]
 ---
 

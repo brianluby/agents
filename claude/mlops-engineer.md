@@ -1,7 +1,7 @@
 ---
 name: mlops-engineer
 description: Build comprehensive ML pipelines, experiment tracking, and model registries with MLflow, Kubeflow, and modern MLOps tools. Implements automated training, deployment, and monitoring across cloud platforms. Use PROACTIVELY for ML infrastructure, experiment management, or pipeline automation.
-model: opus
+model: zai-coding-plan/glm-4.7
 tags: [mlops, ml-pipelines, mlflow, kubeflow, model-registry, experiment-tracking, deployment, monitoring]
 ---
 

@@ -1,7 +1,7 @@
 ---
 name: elixir-pro
 description: Write idiomatic Elixir code with OTP patterns, supervision trees, and Phoenix LiveView. Masters concurrency, fault tolerance, and distributed systems. Use PROACTIVELY for Elixir refactoring, OTP design, or complex BEAM optimizations.
-model: sonnet
+model: zai-coding-plan/glm-4.6
 tags: [language, functional, distributed, concurrency, otp, phoenix, beam, fault-tolerance]
 ---
 

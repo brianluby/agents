@@ -1,7 +1,7 @@
 ---
 name: scala-pro
 description: Master enterprise-grade Scala development with functional programming, distributed systems, and big data processing. Expert in Apache Pekko, Akka, Spark, ZIO/Cats Effect, and reactive architectures. Use PROACTIVELY for Scala system design, performance optimization, or enterprise integration.
-model: sonnet
+model: zai-coding-plan/glm-4.6
 tags: [scala, functional, distributed, akka, pekko, spark, zio, cats]
 ---
 

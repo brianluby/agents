@@ -1,7 +1,7 @@
 ---
 name: seo-optimizer
 description: Technical SEO optimization including keyword strategy, meta tags, content structure, schema markup, and featured snippet targeting. Analyzes and optimizes on-page SEO elements. Use PROACTIVELY for SEO audits and optimization tasks.
-model: haiku
+model: google/gemini-2.5-flash-lite
 tags: [seo, optimization, keywords, meta-tags, schema, structure, snippets]
 ---
 

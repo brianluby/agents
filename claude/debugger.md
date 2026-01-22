@@ -1,7 +1,7 @@
 ---
 name: debugger
 description: Elite debugging specialist mastering root cause analysis, log analysis, distributed tracing, and complex production issues. Expert in memory leaks, race conditions, error correlation, and test failures. Uses modern debugging tools and systematic approaches. Use PROACTIVELY for any errors, test failures, performance issues, or unexpected behavior.
-model: sonnet
+model: zai-coding-plan/glm-4.6
 tags: [debugging, errors, troubleshooting, logs, analysis, root-cause, investigation, tracing]
 ---
 

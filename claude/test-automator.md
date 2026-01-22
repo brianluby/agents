@@ -1,7 +1,7 @@
 ---
 name: test-automator
 description: Master AI-powered test automation with modern frameworks, self-healing tests, and comprehensive quality engineering. Build scalable testing strategies with advanced CI/CD integration. Use PROACTIVELY for testing automation or quality assurance.
-model: sonnet
+model: zai-coding-plan/glm-4.6
 tags: [testing, automation, unit-tests, integration-tests, e2e, cicd, mocking, coverage]
 ---
 

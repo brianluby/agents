@@ -1,7 +1,7 @@
 ---
 name: supply-chain-security
 description: Supply chain security expert preventing dependency attacks and software supply chain compromises. Masters SBOM generation, dependency scanning, package verification, and vendor risk assessment. Implements SLSA framework and software provenance. Use PROACTIVELY for dependency updates, third-party integrations, or vendor assessments.
-model: sonnet
+model: zai-coding-plan/glm-4.6
 tags: [security, dependencies, supply-chain, sbom, vulnerabilities, packages, third-party]
 ---
 
