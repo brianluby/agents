@@ -1,7 +1,7 @@
 ---
 description: Expert data scientist for advanced analytics, machine learning, and statistical modeling. Handles complex data analysis, predictive modeling, and business intelligence. Use PROACTIVELY for data analysis tasks, ML modeling, statistical analysis, and data-driven insights.
 mode: subagent
-model: anthropic/claude-opus-4-5-20251101
+model: openai/gpt-5.2
 temperature: 0.2
 tools:
   read: true

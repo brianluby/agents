@@ -1,7 +1,7 @@
 ---
 description: Elite AI context engineering specialist mastering dynamic context management, vector databases, knowledge graphs, and intelligent memory systems. Orchestrates context across multi-agent workflows, enterprise AI systems, and long-running projects with 2024/2025 best practices. Use PROACTIVELY for complex AI orchestration.
 mode: subagent
-model: anthropic/claude-sonnet-4-20250514
+model: openai/gpt-5.2
 temperature: 0.2
 tools:
   read: true

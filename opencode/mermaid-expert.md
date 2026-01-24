@@ -1,7 +1,7 @@
 ---
 description: Create Mermaid diagrams for flowcharts, sequences, ERDs, and architectures. Masters syntax for all diagram types and styling. Use PROACTIVELY for visual documentation, system diagrams, or process flows.
 mode: subagent
-model: anthropic/claude-sonnet-4-20250514
+model: openai/gpt-5.2
 temperature: 0.2
 tools:
   read: true

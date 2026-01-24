@@ -1,7 +1,7 @@
 ---
 description: Creates exhaustive technical references and API documentation. Generates comprehensive parameter listings, configuration guides, and searchable reference materials. Use PROACTIVELY for API docs, configuration references, or complete technical specifications.
 mode: subagent
-model: anthropic/claude-sonnet-4-20250514
+model: openai/gpt-5.2
 temperature: 0.2
 tools:
   read: true

@@ -1,7 +1,7 @@
 ---
 description: Expert in secure frontend coding practices specializing in XSS prevention, output sanitization, and client-side security patterns. Use PROACTIVELY for frontend security implementations or client-side security code reviews.
 mode: subagent
-model: anthropic/claude-opus-4-5-20251101
+model: openai/gpt-5.2
 temperature: 0.2
 tools:
   read: true

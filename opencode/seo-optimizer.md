@@ -1,7 +1,7 @@
 ---
 description: Technical SEO optimization including keyword strategy, meta tags, content structure, schema markup, and featured snippet targeting. Analyzes and optimizes on-page SEO elements. Use PROACTIVELY for SEO audits and optimization tasks.
 mode: subagent
-model: anthropic/claude-3-5-haiku-20241022
+model: openai/gpt-5.2
 temperature: 0.2
 tools:
   read: true

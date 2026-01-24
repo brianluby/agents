@@ -1,7 +1,7 @@
 ---
 description: Master AI-powered test automation with modern frameworks, self-healing tests, and comprehensive quality engineering. Build scalable testing strategies with advanced CI/CD integration. Use PROACTIVELY for testing automation or quality assurance.
 mode: subagent
-model: anthropic/claude-sonnet-4-20250514
+model: openai/gpt-5.2
 temperature: 0.2
 tools:
   read: true

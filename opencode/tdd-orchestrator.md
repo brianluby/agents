@@ -1,7 +1,7 @@
 ---
 description: Master TDD orchestrator specializing in red-green-refactor discipline, multi-agent workflow coordination, and comprehensive test-driven development practices. Enforces TDD best practices across teams with AI-assisted testing and modern frameworks. Use PROACTIVELY for TDD implementation and governance.
 mode: subagent
-model: anthropic/claude-opus-4-5-20251101
+model: openai/gpt-5.2
 temperature: 0.2
 tools:
   read: true

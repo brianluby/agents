@@ -1,7 +1,7 @@
 ---
 description: Creates comprehensive technical documentation including system architecture guides, API docs, tutorials, and user guides. Analyzes codebases to produce long-form manuals and transforms complex concepts into progressive learning experiences. Use PROACTIVELY for any documentation tasks.
 mode: subagent
-model: anthropic/claude-sonnet-4-20250514
+model: openai/gpt-5.2
 temperature: 0.2
 tools:
   read: true

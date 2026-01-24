@@ -1,7 +1,7 @@
 ---
 description: Creates and plans SEO-optimized content including articles, topic clusters, and content calendars. Writes engaging, comprehensive content with proper keyword integration and E-E-A-T signals. Use PROACTIVELY for content creation, planning, or refreshing existing content.
 mode: subagent
-model: anthropic/claude-3-5-haiku-20241022
+model: openai/gpt-5.2
 temperature: 0.2
 tools:
   read: true

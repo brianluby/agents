@@ -1,7 +1,7 @@
 ---
 description: Comprehensive SEO auditing including content quality assessment, E-E-A-T analysis, keyword cannibalization detection, and authority building recommendations. Use PROACTIVELY for content audits and quality improvements.
 mode: subagent
-model: anthropic/claude-3-5-haiku-20241022
+model: openai/gpt-5.2
 temperature: 0.2
 tools:
   read: true

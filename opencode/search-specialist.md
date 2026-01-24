@@ -1,7 +1,7 @@
 ---
 description: Expert web researcher using advanced search techniques and synthesis. Masters search operators, result filtering, and multi-source verification. Handles competitive analysis and fact-checking. Use PROACTIVELY for deep research, information gathering, or trend analysis.
 mode: subagent
-model: anthropic/claude-3-5-haiku-20241022
+model: openai/gpt-5.2
 temperature: 0.2
 tools:
   read: true
