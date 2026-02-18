@@ -5,15 +5,15 @@ Authoritative quick-reference for agentic coding tools operating in this repo.
 1. Project Type: Markdown agent definitions + lightweight Python/CLI conversion scripts. No native test suite; add tests only if explicitly requested.
 2. Environment Setup: `python -m venv .venv && source .venv/bin/activate && pip install -r requirements.txt`.
 3. Build/Run Scripts:
-   - Convert single file → OpenCode: `python scripts/convert-agent.py claude/path/agent.md opencode/dev/agent.md --to=opencode`.
-   - Convert single file → Claude: `python scripts/convert-agent.py opencode/dev/agent.md claude/path/agent.md --to=claude`.
+   - Convert single file → OpenCode: `python scripts/convert-agent.py claude/path/agent.md opencode/python-pro/SKILL.md --to=opencode`.
+   - Convert single file → Claude: `python scripts/convert-agent.py opencode/python-pro/SKILL.md claude/path/agent.md --to=claude`.
    - Bulk convert (rich progress): `python scripts/convert_to_opencode.py --source-dir claude --target-dir opencode` (add `--dry-run` first).
    - Simple shell converter: `bash scripts/convert-agent-simple.sh in.md out.md opencode|claude`.
 4. Lint/Format: Keep scripts <200 lines cohesive; use PEP8 (120 char soft limit), f-strings, explicit imports (one per line, stdlib → third-party → local, blank line between groups). No autoformatter configured—do minimal, surgical edits.
 5. Types & Style: Prefer type hints in new/modified Python functions. Pure functions first; side effects (file writes) isolated. Use early returns; avoid deep nesting.
 6. Naming: snake_case for files/functions, UPPER_SNAKE_CASE for constants, PascalCase only for classes. Markdown agent filenames remain lowercase hyphen-separated.
 7. Error Handling: Validate file existence; print concise error then `sys.exit(1)` for unrecoverable CLI issues. Do not swallow exceptions silently; narrow except blocks.
-8. YAML Frontmatter: Maintain existing keys; when adding keep ordering: name, description, model, tools (Claude) OR description, mode, model, temperature, tools (OpenCode). Remove deprecated `name` when migrating to OpenCode; use `scripts/lint_agents.py` to verify (`--check-order` auto-fixes ordering; allowed tools enforced: read, write, edit, bash, search, glob, grep, diff, format, webfetch).
+8. YAML Frontmatter: Maintain existing keys; when adding keep ordering: name, description, model, tools (Claude) OR name, description, license, compatibility, metadata (OpenCode skills). Do not include model information in OpenCode skills; use `scripts/lint_agents.py` to verify (`--check-order` auto-fixes ordering).
 9. Imports: Standard library first, then third-party (pyyaml, click, rich), then local scripts; no wildcard imports; sort logically (optional alphabetical within group).
 10. Logging/Output: Use `print()` or rich console (already imported) for user-facing CLI; never add verbose debug unless user requests.
 11. Performance: Scripts run on small sets; prefer clarity over micro-optimizations. Avoid unnecessary rereads of files.

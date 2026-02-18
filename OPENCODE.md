@@ -6,59 +6,34 @@ This file provides guidance for using and creating OpenCode agents in this repos
 
 This repository contains AI agents for both Claude Code and OpenCode platforms. OpenCode agents are located in the `opencode/` directory and follow OpenCode's specific format and requirements.
 
-## OpenCode Agent Structure
+## OpenCode Skill Structure
 
-OpenCode agents use Markdown files with YAML frontmatter. The frontmatter configures the agent's behavior and capabilities.
+OpenCode skills are stored as directories under `opencode/`, each containing a `SKILL.md` file:
+
+- Example: `opencode/sre-engineer/SKILL.md`
+
+Skills use Markdown with YAML frontmatter.
 
 ### Frontmatter Specification (Canonical Order)
 
-The recommended ordering of keys (omit any not used):
-
 ```yaml
 ---
-description: Concise explanation of the agent's purpose
-mode: subagent                 # primary | subagent | all
-model: REPLACE_WITH_MODEL      # e.g. zai/glm-4.6
-temperature: 0.2               # 0.0-1.0 (determinism → creativity)
-tools:                         # granular tool permissions (boolean map)
-  read: true
-  write: true
-  edit: true
-  bash: true
-  search: true
-# (optional additional keys: permissions, prompt, tags*, etc.)
----
-```
-
-Notes:
-- `description` + `mode` are required.
-- `model` is recommended (kept optional here to avoid forcing defaults during iterative authoring).
-- `temperature` should be present; default to `0.2` for deterministic technical agents.
-- `tools` MUST be a mapping, never a single-line string. Only include tools actually needed.
-- The `name:` field is intentionally removed (filename serves as identifier).
-- Legacy single-line style like `tools: read, write, edit` is unsupported—convert to the mapping form above.
-
-### Minimal Example
-
-```yaml
----
-description: High-signal security code reviewer for backend services
-mode: subagent
-temperature: 0.2
-tools:
-  read: true
-  edit: true
-  search: true
+name: sre-engineer
+description: Define SLIs/SLOs, implement reliability practices, manage error budgets, and balance feature velocity with stability.
+license: MIT
+compatibility: opencode
+metadata:
+  audience: developers
+  workflow: general
 ---
 ```
 
 ### Legacy Normalization (Migration Performed)
 
 A repository-wide normalization pass was executed (September 2025) to:
-- Add `mode: subagent` where missing
-- Convert legacy comma-delimited `tools:` lines to mapping form
-- Remove inconsistent single-line tool declarations
-- (Upcoming in this change) Remove all `name:` fields and add missing `temperature: 0.2`
+- Migrate skills to canonical frontmatter: `name`, `description`, `license`, `compatibility`, `metadata`
+- Remove legacy Claude-style keys from OpenCode skills (`model`, `mode`, `temperature`, `tools`)
+- Normalize key ordering to the canonical order expected by `scripts/lint_agents.py`
 
 If adding older agents, re-run the migration logic manually or follow the checklist above.
 
@@ -79,9 +54,9 @@ tools:
 ```
 Drop any tools not required by the role.
 
-### Referencing the Canonical Template
+### Referencing a Template
 
-A maintained template lives at: `opencode/agent-template.md` — copy it when creating new agents instead of duplicating ad‑hoc snippets from documentation.
+There is no single canonical template file in this repo; copy an existing `opencode/<skill>/SKILL.md` and adjust.
 
 ## Agent Categories
 
@@ -106,38 +81,26 @@ The `opencode/` directory contains agents organized into functional categories:
 
 The `shared/` directory (if present) can contain cross-platform agents; otherwise conversion scripts handle translations.
 
-## Creating OpenCode Agents
+## Creating OpenCode Skills
 
-Use the `opencode/agent-template.md` file as the authoritative starting point.
+Use an existing `opencode/<skill>/SKILL.md` file as the starting point.
 
 Key authoring steps:
-1. Copy the template; rename file using lowercase hyphenated role (e.g. `cloud-architect.md`).
-2. Update `description` (<= 120 chars, action-oriented).
-3. Set `mode` (typically `subagent` unless designing a primary orchestration agent).
-4. Choose a `model` if needed; otherwise rely on platform default.
-5. Keep `temperature: 0.2` unless creative ideation is core (raise to 0.4–0.6).
-6. Trim `tools` to the minimal required set.
-7. Tailor prompt sections (Purpose, Capabilities, Workflow, Quality Bar, Anti-Goals, Examples).
+1. Create a directory under `opencode/` using a lowercase hyphenated name (e.g. `cloud-architect`).
+2. Add `SKILL.md` in that directory.
+3. Set `name` and `description`.
+4. Set `license`, `compatibility`, and `metadata`.
+5. Tailor prompt sections (Purpose, Capabilities, Workflow, Quality Bar, Anti-Goals, Examples).
 
-### Model Selection
+### Model / Tooling
 
-OpenCode uses fully qualified model identifiers (examples only; keep in sync with platform availability):
-- `zai/glm-4.6` – General-purpose coding and planning
-
-### Temperature Guidelines
-
-- `0.0–0.3`: Deterministic (code review, refactors, migrations)
-- `0.4–0.7`: Mixed creativity (architecture proposals, multi-step planning)
-- `0.8–1.0`: High-divergence ideation (brainstorming, naming, novel design)
+Model selection and tool permissions are not stored in the OpenCode skill frontmatter in this repository.
 
 ## Converting Claude Code Agents
 
-1. Remove `name:` (filename is identifier).
-2. Remove tag arrays not relevant to OpenCode runtime.
-3. Ensure `mode: subagent` exists.
-4. Add or retain `temperature` (default to 0.2 if deterministic role).
-5. Convert `tools:` to mapping form (drop unused tools).
-6. Adjust voice/style to align with OpenCode expectations (concise, action-oriented, transparent reasoning when valuable).
+1. Create `opencode/<skill-name>/SKILL.md`.
+2. Add OpenCode skill frontmatter (name/description/license/compatibility/metadata).
+3. Copy the body prompt sections.
 
 ## Best Practices
 
@@ -165,34 +128,33 @@ OpenCode uses fully qualified model identifiers (examples only; keep in sync wit
 
 Basic usage:
 ```bash
-python scripts/flatten_agents.py --source opencode --target build/flat --mode link --strategy skip
+python scripts/flatten_agents.py --repo-root . --dest-root build/flat --mode link --strategy skip
 ```
-Modes: `link` (symlinks), `copy`, `move`. Collision strategies: `skip`, `overwrite`, `rename`.
+Modes: `link` (symlinks), `copy`, `move`. Collision strategies: `skip`, `overwrite`, `keep-both`.
 
 ## Linting
 
 Use the repository lint script to validate agent frontmatter consistency before committing:
 
 ```bash
-# Basic validation (errors -> non‑zero exit)
-python scripts/lint_agents.py --roots opencode --require-model
+# Basic validation for OpenCode skills (errors -> non-zero exit)
+python scripts/lint_agents.py --roots opencode --schema opencode
 
-# Include Claude + OpenCode agents
-python scripts/lint_agents.py --roots opencode claude --require-model
+# Include Claude + OpenCode agents (auto schema detection)
+python scripts/lint_agents.py --roots opencode claude
 
-# Auto-add a default model where missing (will modify files)
-python3 scripts/lint_agents.py --roots opencode --fix-missing-model zai/glm-4.6
+# Auto-fix canonical key ordering for OpenCode skills
+python3 scripts/lint_agents.py --roots opencode --schema opencode --check-order
 
 # Show violations but always exit 0 (CI soft mode)
-python scripts/lint_agents.py --roots opencode --require-model --warn-only
+python scripts/lint_agents.py --roots opencode --schema opencode --warn-only
 ```
 
 Checks performed:
-- Required keys: description, mode, temperature, tools (model recommended)
-- `mode` in {primary, subagent, all}
-- `temperature` within 0.0–1.0
-- `tools` is a boolean mapping (no list or comma string)
-- Deprecated keys absent (`name`, `tags`)
+- Required keys: name, description, license, compatibility, metadata
+- `compatibility: opencode`
+- `metadata` is a mapping
+- Deprecated keys absent (`tags`)
 - Canonical ordering informational warning
 
 See CHANGELOG.md for history of normalization passes.
@@ -228,13 +190,11 @@ OpenCode agents are discovered when placed in:
 
 Link examples:
 ```bash
-# Link a single agent
-ln -s /path/to/repo/opencode/security/code-reviewer.md ~/.config/opencode/agent/
+# Link a single skill directory
+ln -s /path/to/repo/opencode/code-reviewer ~/.config/opencode/agent/
 
-# Link an entire category
-target_dir=~/.config/opencode/agent/security
-mkdir -p "$target_dir"
-ln -s /path/to/repo/opencode/security/* "$target_dir"/
+# Link all skills
+ln -s /path/to/repo/opencode/* ~/.config/opencode/agent/
 ```
 
 ## Testing Agents

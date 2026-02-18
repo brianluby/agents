@@ -1,23 +1,23 @@
 #!/usr/bin/env python3
-"""Agent linter for OpenCode and Claude agent markdown files.
+"""Agent/skill linter for OpenCode and Claude agent markdown files.
 
 Multi-schema validation modes:
-- OpenCode schema (strict): requires description, mode, temperature, tools mapping; model optionally enforced via --require-model / --fix-missing-model
-- Claude schema (legacy-friendly): allows name, optional description/model/tools; no mode/temperature requirement by default
-- Auto detection (default): chooses schema per file path by presence of top-level directory segment 'opencode' or 'claude'. Unclassified paths are skipped.
+- OpenCode schema (strict): validates OpenCode "skill" frontmatter and key ordering
+- Claude schema (legacy-friendly): validates Claude agent frontmatter (name/description/model/tools)
+- Auto detection (default): chooses schema per file path by presence of top-level directory segment
+  'opencode' or 'claude'. Unclassified paths are skipped.
 
-Key validations (applied per schema rules):
-- Canonical key ordering (OpenCode only) with optional auto-fix (--check-order)
-- Tools mapping shape (dict of booleans) and allowed tool names (both schemas if tools present; required only for OpenCode)
-- Temperature presence/range (required for OpenCode; if present in Claude validated but not required)
-- Mode value in {primary, subagent, all} (required for OpenCode only)
-- Deprecated keys (name, tags): always violations for OpenCode; for Claude only if --allow-deprecated-claude NOT supplied
+OpenCode schema (current):
+- Files live under a per-skill directory, e.g. opencode/python-pro/SKILL.md
+- Required frontmatter keys: name, description, license, compatibility, metadata
+- Model/mode/temperature/tools are not part of the current skill frontmatter.
 
 Exit codes:
   0 = clean
   1 = violations (unless --warn-only)
   2 = internal / usage error (e.g. no files classified under --schema auto)
 """
+
 from __future__ import annotations
 
 import argparse
@@ -29,10 +29,27 @@ from typing import List, Dict, Any, Optional, Tuple
 import yaml
 
 ALLOWED_MODES = {"primary", "subagent", "all"}
-OPENCODE_CANONICAL_ORDER = ["description", "mode", "model", "temperature", "tools"]
+OPENCODE_CANONICAL_ORDER = [
+    "name",
+    "description",
+    "license",
+    "compatibility",
+    "metadata",
+]
 CLAUDE_CANONICAL_ORDER = ["name", "description", "model", "tools"]
-ALLOWED_TOOLS = {"read", "write", "edit", "bash", "search", "glob", "grep", "diff", "format", "webfetch"}
-DEPRECATED_KEYS = {"name", "tags"}
+ALLOWED_TOOLS = {
+    "read",
+    "write",
+    "edit",
+    "bash",
+    "search",
+    "glob",
+    "grep",
+    "diff",
+    "format",
+    "webfetch",
+}
+DEPRECATED_KEYS = {"tags"}
 
 
 @dataclass
@@ -60,10 +77,10 @@ OPENCODE_SCHEMA = AgentSchema(
     name="opencode",
     canonical_order=OPENCODE_CANONICAL_ORDER,
     enforce_order=True,
-    require_keys=["description", "mode"],
-    require_tools=True,
-    require_temperature=True,
-    require_mode=True,
+    require_keys=["name", "description", "license", "compatibility", "metadata"],
+    require_tools=False,
+    require_temperature=False,
+    require_mode=False,
 )
 
 CLAUDE_SCHEMA = AgentSchema(
@@ -78,9 +95,9 @@ CLAUDE_SCHEMA = AgentSchema(
 
 
 def parse_frontmatter(text: str) -> Tuple[Optional[Dict[str, Any]], str]:
-    if not text.startswith('---'):
+    if not text.startswith("---"):
         return None, text
-    parts = text.split('---', 2)
+    parts = text.split("---", 2)
     if len(parts) < 3:
         return None, text
     raw = parts[1]
@@ -112,117 +129,140 @@ def rebuild_order(fm: Dict[str, Any], canonical_order: List[str]) -> Dict[str, A
 
 
 def classify_schema(path: Path, forced: str) -> Optional[AgentSchema]:
-    if forced == 'opencode':
+    if forced == "opencode":
         return OPENCODE_SCHEMA
-    if forced == 'claude':
+    if forced == "claude":
         return CLAUDE_SCHEMA
     # auto mode
     parts = set(path.parts)
-    if 'opencode' in parts:
+    if "opencode" in parts:
         return OPENCODE_SCHEMA
-    if 'claude' in parts:
+    if "claude" in parts:
         return CLAUDE_SCHEMA
     return None
 
 
-def lint_file(path: Path,
-              schema: AgentSchema,
-              require_model: bool,
-              fix_model: Optional[str],
-              fix_order: bool,
-              allow_deprecated_claude: bool) -> Tuple[List[Violation], bool]:
-    text = path.read_text(encoding='utf-8')
+def lint_file(
+    path: Path,
+    schema: AgentSchema,
+    require_model: bool,
+    fix_model: Optional[str],
+    fix_order: bool,
+    allow_deprecated_claude: bool,
+) -> Tuple[List[Violation], bool]:
+    text = path.read_text(encoding="utf-8")
     fm, body = parse_frontmatter(text)
     violations: List[Violation] = []
     changed = False
 
     if fm is None:
-        violations.append(Violation(path, 'Missing or invalid YAML frontmatter'))
+        violations.append(Violation(path, "Missing or invalid YAML frontmatter"))
         return violations, changed
 
     # Deprecated keys handling
-    if schema.name == 'opencode':
+    if schema.name == "opencode":
         for k in fm.keys():
             if k in DEPRECATED_KEYS:
-                violations.append(Violation(path, f'Deprecated key in OpenCode schema: {k}'))
+                violations.append(
+                    Violation(path, f"Deprecated key in OpenCode schema: {k}")
+                )
     else:  # claude
         if not allow_deprecated_claude:
             for k in fm.keys():
                 if k in DEPRECATED_KEYS:
-                    violations.append(Violation(path, f'Deprecated key (enable with --allow-deprecated-claude): {k}'))
+                    violations.append(
+                        Violation(
+                            path,
+                            f"Deprecated key (enable with --allow-deprecated-claude): {k}",
+                        )
+                    )
 
     # Required keys (schema-specific)
     for key in schema.require_keys:
         if key not in fm:
-            violations.append(Violation(path, f'Missing required key: {key}'))
+            violations.append(Violation(path, f"Missing required key: {key}"))
 
-    # Mode validity (only if required by schema or present)
-    if schema.require_mode and 'mode' in fm:
-        if fm['mode'] not in ALLOWED_MODES:
-            violations.append(Violation(path, f"Invalid mode: {fm['mode']!r}"))
-    elif schema.require_mode and 'mode' not in fm:
-        violations.append(Violation(path, 'Missing mode'))
-    else:
-        # If mode present in Claude but invalid, give soft warning
-        if 'mode' in fm and fm['mode'] not in ALLOWED_MODES:
-            violations.append(Violation(path, f"Mode key ignored for Claude schema (invalid value {fm['mode']!r})"))
+    # Mode validity (Claude-only legacy support)
+    if schema.name == "claude" and "mode" in fm and fm["mode"] not in ALLOWED_MODES:
+        violations.append(
+            Violation(
+                path,
+                f"Mode key ignored for Claude schema (invalid value {fm['mode']!r})",
+            )
+        )
 
-    # Model handling (flag or fix across schemas if requested)
-    if require_model and 'model' not in fm:
-        if fix_model:
-            fm['model'] = fix_model
-            changed = True
-        else:
-            violations.append(Violation(path, 'Missing model'))
+    # Model handling (Claude schema only)
+    if schema.name == "claude":
+        if require_model and "model" not in fm:
+            if fix_model:
+                fm["model"] = fix_model
+                changed = True
+            else:
+                violations.append(Violation(path, "Missing model"))
 
-    # Temperature
-    if schema.require_temperature:
-        if 'temperature' in fm:
-            try:
-                t = float(fm['temperature'])
-                if not 0.0 <= t <= 1.0:
-                    violations.append(Violation(path, f'Out-of-range temperature: {t}'))
-            except Exception:
-                violations.append(Violation(path, f'Non-numeric temperature: {fm['temperature']!r}'))
-        else:
-            violations.append(Violation(path, 'Missing temperature'))
-    else:
-        # Validate if present for Claude but do not require
-        if 'temperature' in fm:
-            try:
-                t = float(fm['temperature'])
-                if not 0.0 <= t <= 1.0:
-                    violations.append(Violation(path, f'Out-of-range temperature (Claude non-required): {t}'))
-            except Exception:
-                violations.append(Violation(path, f'Non-numeric temperature (Claude non-required): {fm['temperature']!r}'))
+    # Temperature (Claude schema only; ignore for OpenCode skills)
+    if schema.name == "claude" and "temperature" in fm:
+        try:
+            t = float(fm["temperature"])
+            if not 0.0 <= t <= 1.0:
+                violations.append(
+                    Violation(
+                        path, f"Out-of-range temperature (Claude non-required): {t}"
+                    )
+                )
+        except Exception:
+            violations.append(
+                Violation(
+                    path,
+                    f"Non-numeric temperature (Claude non-required): {fm['temperature']!r}",
+                )
+            )
+
+    # OpenCode skill-specific validations
+    if schema.name == "opencode":
+        if "compatibility" in fm and fm["compatibility"] != "opencode":
+            violations.append(
+                Violation(
+                    path,
+                    f"Invalid compatibility: {fm['compatibility']!r} (expected 'opencode')",
+                )
+            )
+        if "metadata" in fm and not isinstance(fm["metadata"], dict):
+            violations.append(Violation(path, "metadata must be a mapping"))
 
     # Tools
     if schema.require_tools:
-        if 'tools' not in fm:
-            violations.append(Violation(path, 'Missing tools mapping'))
+        if "tools" not in fm:
+            violations.append(Violation(path, "Missing tools mapping"))
         else:
-            tools = fm['tools']
+            tools = fm["tools"]
             if not isinstance(tools, dict):
-                violations.append(Violation(path, 'tools must be a mapping'))
+                violations.append(Violation(path, "tools must be a mapping"))
             else:
                 bad_values = {k: v for k, v in tools.items() if not isinstance(v, bool)}
                 if bad_values:
-                    violations.append(Violation(path, f'Non-boolean tool values: {bad_values}'))
+                    violations.append(
+                        Violation(path, f"Non-boolean tool values: {bad_values}")
+                    )
                 unknown = [k for k in tools.keys() if k not in ALLOWED_TOOLS]
                 if unknown:
-                    violations.append(Violation(path, f'Unknown tools: {unknown}'))
+                    violations.append(Violation(path, f"Unknown tools: {unknown}"))
     else:
-        if 'tools' in fm:
-            tools = fm['tools']
+        if "tools" in fm:
+            tools = fm["tools"]
             if not isinstance(tools, dict):
-                violations.append(Violation(path, 'tools must be a mapping (if present)'))
+                violations.append(
+                    Violation(path, "tools must be a mapping (if present)")
+                )
             else:
                 bad_values = {k: v for k, v in tools.items() if not isinstance(v, bool)}
                 if bad_values:
-                    violations.append(Violation(path, f'Non-boolean tool values: {bad_values}'))
+                    violations.append(
+                        Violation(path, f"Non-boolean tool values: {bad_values}")
+                    )
                 unknown = [k for k in tools.keys() if k not in ALLOWED_TOOLS]
                 if unknown:
-                    violations.append(Violation(path, f'Unknown tools: {unknown}'))
+                    violations.append(Violation(path, f"Unknown tools: {unknown}"))
 
     # Order check (OpenCode only)
     if schema.enforce_order:
@@ -232,7 +272,11 @@ def lint_file(path: Path,
                 fm = rebuild_order(fm, schema.canonical_order)
                 changed = True
             else:
-                violations.append(Violation(path, 'Non-canonical key order (informational)', fixable=True))
+                violations.append(
+                    Violation(
+                        path, "Non-canonical key order (informational)", fixable=True
+                    )
+                )
     else:
         is_canonical = True  # not enforced
 
@@ -243,34 +287,61 @@ def lint_file(path: Path,
             out_dict = rebuild_order(fm, schema.canonical_order)
         else:
             out_dict = fm
-        dumped = yaml.safe_dump(out_dict, sort_keys=False).strip() + '\n'
+        dumped = yaml.safe_dump(out_dict, sort_keys=False).strip() + "\n"
         # Preserve body after frontmatter delimiter
-        body_str = body if body.startswith('\n') else body  # body already includes leading newline from split
-        path.write_text(f"---\n{dumped}---{body_str}", encoding='utf-8')
+        body_str = (
+            body if body.startswith("\n") else body
+        )  # body already includes leading newline from split
+        path.write_text(f"---\n{dumped}---{body_str}", encoding="utf-8")
 
     return violations, changed
 
 
 def scan(root: Path) -> List[Path]:
-    return [p for p in root.rglob('*.md') if p.is_file()]
+    return [p for p in root.rglob("*.md") if p.is_file()]
 
 
 def main(argv: List[str]) -> int:
-    parser = argparse.ArgumentParser(description='Lint agent markdown files.')
-    parser.add_argument('--roots', nargs='+', default=['opencode'], help='Root directories to scan')
-    parser.add_argument('--require-model', action='store_true', help='Flag missing model as violation')
-    parser.add_argument('--fix-missing-model', metavar='MODEL', help='Insert model into agents missing it')
-    parser.add_argument('--check-order', action='store_true', help='Auto-fix non-canonical key order (OpenCode)')
-    parser.add_argument('--warn-only', action='store_true', help='Exit 0 even if violations found')
-    parser.add_argument('--list-tools', action='store_true', help='Print allowed tools and exit')
-    parser.add_argument('--schema', choices=['auto', 'opencode', 'claude'], default='auto', help='Schema selection strategy')
-    parser.add_argument('--allow-deprecated-claude', action='store_true', help='Allow name/tags in Claude schema without warning')
+    parser = argparse.ArgumentParser(description="Lint agent markdown files.")
+    parser.add_argument(
+        "--roots", nargs="+", default=["opencode"], help="Root directories to scan"
+    )
+    parser.add_argument(
+        "--require-model", action="store_true", help="Flag missing model as violation"
+    )
+    parser.add_argument(
+        "--fix-missing-model",
+        metavar="MODEL",
+        help="Insert model into agents missing it",
+    )
+    parser.add_argument(
+        "--check-order",
+        action="store_true",
+        help="Auto-fix non-canonical key order (OpenCode)",
+    )
+    parser.add_argument(
+        "--warn-only", action="store_true", help="Exit 0 even if violations found"
+    )
+    parser.add_argument(
+        "--list-tools", action="store_true", help="Print allowed tools and exit"
+    )
+    parser.add_argument(
+        "--schema",
+        choices=["auto", "opencode", "claude"],
+        default="auto",
+        help="Schema selection strategy",
+    )
+    parser.add_argument(
+        "--allow-deprecated-claude",
+        action="store_true",
+        help="Allow name/tags in Claude schema without warning",
+    )
     args = parser.parse_args(argv)
 
     if args.list_tools:
-        print('Allowed tools:')
+        print("Allowed tools:")
         for t in sorted(ALLOWED_TOOLS):
-            print(' -', t)
+            print(" -", t)
         return 0
 
     violations: List[Violation] = []
@@ -306,35 +377,40 @@ def main(argv: List[str]) -> int:
                 changed_files += 1
 
     if not classified_any:
-        if args.schema == 'auto':
-            print('No agent files classified under auto schema detection. Provide --schema opencode or --schema claude explicitly.', file=sys.stderr)
+        if args.schema == "auto":
+            print(
+                "No agent files classified under auto schema detection. Provide --schema opencode or --schema claude explicitly.",
+                file=sys.stderr,
+            )
             return 2
         else:
-            print('No files matched provided roots/schema.', file=sys.stderr)
+            print("No files matched provided roots/schema.", file=sys.stderr)
             return 2
 
     if violations:
-        print('\nViolations:')
+        print("\nViolations:")
         for v in violations:
-            print('-', v.format())
+            print("-", v.format())
 
-    print('\nSummary:')
+    print("\nSummary:")
     print(f"  Files scanned: {scanned_files}")
     print(f"  Violations: {len(violations)}")
     print(f"  Files modified (auto-fix): {changed_files}")
-    print(f"  Schema counts: opencode={schema_counts['opencode']} claude={schema_counts['claude']}")
+    print(
+        f"  Schema counts: opencode={schema_counts['opencode']} claude={schema_counts['claude']}"
+    )
 
     if violations and not args.warn_only:
         return 1
     return 0
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     try:
         sys.exit(main(sys.argv[1:]))
     except KeyboardInterrupt:
-        print('Interrupted', file=sys.stderr)
+        print("Interrupted", file=sys.stderr)
         sys.exit(130)
     except Exception as e:
-        print('Internal error:', e, file=sys.stderr)
+        print("Internal error:", e, file=sys.stderr)
         sys.exit(2)

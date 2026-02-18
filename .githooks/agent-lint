@@ -22,7 +22,8 @@ if ! command -v "$PYTHON_BIN" >/dev/null 2>&1; then
 fi
 
 # Run linter (order auto-fix allowed inside commit)
-$PYTHON_BIN scripts/lint_agents.py --roots opencode claude --require-model --check-order || STATUS=$?
+# Claude agents still carry legacy `tags` fields in this repo; allow during hook checks.
+$PYTHON_BIN scripts/lint_agents.py --roots opencode claude --require-model --check-order --allow-deprecated-claude || STATUS=$?
 STATUS=${STATUS:-0}
 
 if [ "$STATUS" -ne 0 ]; then

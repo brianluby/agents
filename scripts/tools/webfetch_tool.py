@@ -22,6 +22,7 @@ Return JSON fields:
 
 Note: This is intentionally minimal; richer parsing (HTML->markdown) can be layered later.
 """
+
 from __future__ import annotations
 
 import argparse
@@ -53,14 +54,66 @@ def classify_content_type(ct: str | None) -> str:
     return "other"
 
 
-def fetch_once(url: str, timeout: int) -> Tuple[int, str, bytes, str | None]:
+class LimitedRedirectHandler(urllib.request.HTTPRedirectHandler):
+    def __init__(self, max_redirects: int) -> None:
+        self.max_redirects = max_redirects
+        self.redirects = 0
+
+    def redirect_request(self, req, fp, code, msg, headers, newurl):
+        self.redirects += 1
+        if self.redirects > self.max_redirects:
+            raise urllib.error.HTTPError(
+                req.full_url,
+                code,
+                f"Too many redirects (>{self.max_redirects})",
+                headers,
+                fp,
+            )
+        return super().redirect_request(req, fp, code, msg, headers, newurl)
+
+
+def fetch_once(
+    url: str, timeout: int, limit: int
+) -> Tuple[int, str, bytes, str | None, bool]:
     req = urllib.request.Request(url, headers={"User-Agent": "opencode-webfetch/0.1"})
-    with urllib.request.urlopen(req, timeout=timeout) as resp:  # nosec B310 (controlled destination)
-        status = getattr(resp, 'status', 200)
+    redirect_handler = LimitedRedirectHandler(MAX_REDIRECTS)
+    opener = urllib.request.build_opener(redirect_handler)
+
+    with opener.open(req, timeout=timeout) as resp:  # nosec B310 (controlled destination)
+        status = getattr(resp, "status", 200)
         final_url = resp.geturl()
-        ctype = resp.headers.get('Content-Type')
-        data = resp.read()  # We'll slice later
-    return status, final_url, data, ctype
+        ctype = resp.headers.get("Content-Type")
+
+        classification = classify_content_type(ctype)
+        if classification == "binary":
+            raise ValueError(f"Refusing binary content type: {ctype}")
+
+        chunk_size = 8192
+        max_bytes = max(limit, 0)
+        chunks: list[bytes] = []
+        bytes_read = 0
+        truncated = False
+
+        while True:
+            chunk = resp.read(chunk_size)
+            if not chunk:
+                break
+
+            remaining = max_bytes - bytes_read
+            if remaining <= 0:
+                truncated = True
+                break
+
+            if len(chunk) > remaining:
+                chunks.append(chunk[:remaining])
+                bytes_read += remaining
+                truncated = True
+                break
+
+            chunks.append(chunk)
+            bytes_read += len(chunk)
+
+    return status, final_url, b"".join(chunks), ctype, truncated
 
 
 def run_fetch(url: str, allow: bool, limit: int, timeout: int) -> Dict[str, Any]:
@@ -69,51 +122,34 @@ def run_fetch(url: str, allow: bool, limit: int, timeout: int) -> Dict[str, Any]
     if not (url.startswith("http://") or url.startswith("https://")):
         return {"error": f"Only http(s) URLs allowed: {url}"}
 
-    current = url
-    redirects = 0
-    status: int = 0
-    final_url = url
-    data: bytes = b""
-    ctype: str | None = None
     try:
-        while redirects <= MAX_REDIRECTS:
-            status, final_url, data, ctype = fetch_once(current, timeout)
-            if 300 <= status < 400:
-                loc = None
-                # Basic manual redirect handling
-                try:
-                    # Re-fetch header to get Location (urllib already followed though)
-                    # If urllib already follows redirects automatically, break.
-                    pass
-                except Exception:
-                    pass
-                # urllib already followed redirects; we rely on resp.geturl()
-                if final_url != current:
-                    redirects += 1
-                    current = final_url
-                    continue
-            break
+        status, final_url, data, ctype, truncated = fetch_once(url, timeout, limit)
     except urllib.error.HTTPError as e:
-        return {"error": f"HTTP error {e.code}: {e.reason}", "status": e.code, "url": url}
+        return {
+            "error": f"HTTP error {e.code}: {e.reason}",
+            "status": e.code,
+            "url": url,
+        }
     except urllib.error.URLError as e:
         return {"error": f"Connection error: {e.reason}", "url": url}
+    except ValueError as e:
+        return {"error": str(e), "url": url}
     except Exception as e:  # pragma: no cover
         return {"error": f"Unexpected error: {e}", "url": url}
 
     classification = classify_content_type(ctype)
     if classification == "binary":
-        return {"error": f"Refusing binary content type: {ctype}", "status": status, "url": url}
-
-    truncated = False
-    if len(data) > limit:
-        truncated = True
-        data = data[:limit]
+        return {
+            "error": f"Refusing binary content type: {ctype}",
+            "status": status,
+            "url": url,
+        }
 
     # Attempt UTF-8 decode with fallback replace
     try:
-        text = data.decode('utf-8')
+        text = data.decode("utf-8")
     except UnicodeDecodeError:
-        text = data.decode('utf-8', errors='replace')
+        text = data.decode("utf-8", errors="replace")
 
     if classification not in ("text", "other", "unknown"):
         return {"error": f"Unsupported content type: {ctype}"}
@@ -131,20 +167,28 @@ def run_fetch(url: str, allow: bool, limit: int, timeout: int) -> Dict[str, Any]
 
 def main(argv: list[str]) -> int:
     parser = argparse.ArgumentParser(description="Controlled remote fetch (text only)")
-    parser.add_argument('--url', required=True, help='HTTP(S) URL to fetch')
-    parser.add_argument('--allow', action='store_true', help='Override safety gate (or set OPENCODE_ALLOW_WEB=1)')
-    parser.add_argument('--limit', type=int, default=MAX_DEFAULT_BYTES, help='Max bytes (default 100k)')
-    parser.add_argument('--timeout', type=int, default=10, help='Timeout seconds (default 10)')
+    parser.add_argument("--url", required=True, help="HTTP(S) URL to fetch")
+    parser.add_argument(
+        "--allow",
+        action="store_true",
+        help="Override safety gate (or set OPENCODE_ALLOW_WEB=1)",
+    )
+    parser.add_argument(
+        "--limit", type=int, default=MAX_DEFAULT_BYTES, help="Max bytes (default 100k)"
+    )
+    parser.add_argument(
+        "--timeout", type=int, default=10, help="Timeout seconds (default 10)"
+    )
     args = parser.parse_args(argv)
 
     result = run_fetch(args.url, args.allow, args.limit, args.timeout)
     print(json.dumps(result, indent=2))
-    return 0 if 'error' not in result else 1
+    return 0 if "error" not in result else 1
 
 
-if __name__ == '__main__':  # pragma: no cover
+if __name__ == "__main__":  # pragma: no cover
     try:
         sys.exit(main(sys.argv[1:]))
     except KeyboardInterrupt:
-        print('Interrupted', file=sys.stderr)
+        print("Interrupted", file=sys.stderr)
         sys.exit(130)
